@@ -1026,16 +1026,24 @@ yes'><img width=900 height=384 id="_x0000_i1059" src="westcoach.JPG"></span></p>
 <p align=center style='text-align:center'><u><span style='font-size:18.0pt;
 color:red'><o:p><span style='text-decoration:none'>&nbsp;</span></o:p></span></u></p>
 
-<p align=center style='text-align:center'><u><span style='font-size:18.0pt;
-color:red'>CHECK BACK DAILY CANCELATIONS<o:p></o:p></span></u></p>
-
 {% capture cancellation_message %}
 {% include_relative cancellation_message.html %}
 {% endcapture %}
 
 {% if cancellation_message.size > 5 %}
 <p style='background-color: yellow; padding: 15px; text-align: center; font-size: 25px; font-weight: bold'>{{ cancellation_message }}</p>
+
 {% endif %}
+
+<p style='text-align: center'>Current time:</p><p style='text-align: center' id="datetime"></p>
+<script>
+  // Get current date and time
+  var now = new Date();
+  var datetime = now.toLocaleString();
+
+  // Insert date and time into HTML
+  document.getElementById("datetime").innerHTML = datetime;
+</script>
 
 <p align=center style='text-align:center'><span style='mso-no-proof:yes'><img
 width=410 height=254 id="_x0000_i1058" src="img6.jpg"></span></p>
