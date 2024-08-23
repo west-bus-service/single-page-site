@@ -1,0 +1,19 @@
+<style>
+#map { width: 971px; height: 629px; margin: auto; }
+</style>
+<div align=center id="map"></div>
+<script>
+    var map = L.map('map').setView([44.77,-67.83], 9);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    function onEachFeature(feature, layer) {
+        if (feature.properties && feature.properties.name) {
+            layer.bindPopup(feature.properties.name);
+        }
+    }
+
+    fetch("./route.geojson").then(response => response.json()).then(geojsonFeature => L.geoJSON(geojsonFeature, {onEachFeature}).addTo(map));
+</script>

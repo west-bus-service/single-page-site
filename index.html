@@ -998,19 +998,6 @@ yes'><img alt='westcoach' width=900 height=384 id="_x0000_i1059" src="westcoach.
   document.getElementById("datetime").innerHTML = datetime;
 </script>
 
-<style>
-#map { width: 971px; height: 629px; }
-</style>
-<div id="map"></div>
-<script>
-    var map = L.map('map').setView([44.77,-67.83], 9);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-    fetch("./route.geojson").then(response => response.json()).then(geojsonFeature => L.geoJSON(geojsonFeature).addTo(map));
-</script>
-
 <p align=center style='text-align:center'><span style='mso-no-proof:yes'><img alt="img6"
 width=410 height=254 id="_x0000_i1058" src="img6.jpg"></span></p>
 
@@ -1158,9 +1145,10 @@ src="coachanimation.jpeg" alt="stage coach animation"></span></p>
 <p align=center style='text-align:center'><b><span style='font-size:36.0pt;
 color:red'>West's Coastal Connection</span></b></p>
 
+{% include_relative map.html %}
 <p align=center style='text-align:center'><span style='font-size:24.0pt;
-mso-no-proof:yes'><img alt='west map' border=0 width=971 height=629 id="_x0000_i1054"
-src="west's&#32;map.jpg"></span><span style='font-size:24.0pt'><br>
+mso-no-proof:yes'>
+    </span><span style='font-size:24.0pt'><br>
 <b>CALAIS&bull;MACHIAS &bull; ELLSWORTH&bull;BANGOR</b><br>
 </span><b><span style='font-size:18.0pt'>Daily Public Bus Service </span></b></p>
 
