@@ -1,0 +1,27 @@
+<style>
+#map { width: 971px; height: 629px; margin: auto; }
+</style>
+<div align=center id="map"></div>
+<script>
+    var map = L.map('map').setView([44.77,-67.83], 9);
+    const busIcon = L.icon({
+            iconUrl: 'bus-icon.png',
+            iconSize: [32, 32],
+            iconAnchor: [0, 32],
+            popupAnchor: [16, -40],
+            tooltipAnchor: [32, -16],
+    });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    function pointToLayer(feature, latlng) {
+        const name = feature.properties.name;
+        const bottom = name === "Hancock";
+        const left = ["Pembroke", "Ellsworth", "Columbia"].includes(name);
+        return L.marker(latlng, {icon: busIcon}).bindTooltip(name, { offset: bottom ? new L.Point(-16, 16) : left ? new L.Point(-32, 0) : new L.Point(0, 0), direction: bottom ? "bottom" : left ? "left" : "right", permanent: true });
+    }
+
+    fetch("./routebeta.geojson").then(response => response.json()).then(geojsonFeature => L.geoJSON(geojsonFeature, { pointToLayer }).addTo(map));
+</script>
