@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import calendar
 import os
 import shutil
 import tempfile
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
 
@@ -11,6 +13,7 @@ import pandas as pd
 script_dir = os.path.dirname(os.path.realpath(__file__))
 feed_path = Path(script_dir).parent / "west_gtfs"
 
+now = datetime.now()
 
 class RouteTypes(Enum):
     TRAM = 0  # Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
@@ -43,8 +46,24 @@ class ServiceAvailable(Enum):
     NO = 0  # Service is not available
 
 
+class ServiceException(Enum):
+    ADDED = 1  # Service is added
+    REMOVED = 2  # Service is removed
+
+
 AGENCY_ID = "WT"
 WEST_COASTAL_CONNECTION_ID = "WCC"
+ELLSWORTH_ROUTE_ID = "ELLS"
+MACHIAS_ROUTE_ID = "MACH"
+WEEKDAY_ROUTE_ID = "WEEK"
+LUBEC_ROUTE_ID = "LBC"
+SCHOOL_ROUTE_ID = "SCHL"
+DAILY_SERVICE_ID = "DAILY"
+WEEKDAY_SERVICE_ID = "WEEKDAY"
+MONDAY_SERVICE_ID = "MONDAY"
+TUESDAY_SERVICE_ID = "TUESDAY"
+FW_OF_MONTH_SERVICE_ID = "FW"
+SCHOOL_SERVICE_ID = "SCHL"
 
 AGENCY = {
     # Agency Id
@@ -55,6 +74,8 @@ AGENCY = {
     "agency_url": "https://westbusservice.com",
     # Agency Timezone
     "agency_timezone": "America/New_York",
+    "agency_phone": "207-546-2823",
+    "agency_email": "westbus@ymail.com",
 }
 
 FEED_INFO = {
@@ -65,7 +86,7 @@ FEED_INFO = {
     "feed_lang": "en-US",
     "feed_version": 1,
     "feed_start_date": 20241121,
-    "feed_end_date": 20251121,
+    "feed_end_date": 20291121,
 }
 
 ROUTES = [
@@ -80,12 +101,67 @@ ROUTES = [
         # "route_color": "",
         # "route_text_color": "",
     },
+    {
+        "route_id": ELLSWORTH_ROUTE_ID,
+        "agency_id": AGENCY_ID,
+        "route_short_name": ELLSWORTH_ROUTE_ID,
+        "route_long_name": "Monday Bus to Ellsworth",
+        "route_desc": "Monday service from Beals Island to Ellsworth",
+        "route_type": RouteTypes.BUS.value,
+        # "route_url": "",
+        # "route_color": "",
+        # "route_text_color": "",
+    },
+    {
+        "route_id": MACHIAS_ROUTE_ID,
+        "agency_id": AGENCY_ID,
+        "route_short_name": MACHIAS_ROUTE_ID,
+        "route_long_name": "Tuesday Bus to Machias",
+        "route_desc": "Tuesday service from Steuben to Machias",
+        "route_type": RouteTypes.BUS.value,
+        # "route_url": "",
+        # "route_color": "",
+        # "route_text_color": "",
+    },
+    {
+        "route_id": WEEKDAY_ROUTE_ID,
+        "agency_id": AGENCY_ID,
+        "route_short_name": WEEKDAY_ROUTE_ID,
+        "route_long_name": "Steuben to Jonesport",
+        "route_desc": "Weekday service from Steuben to Jonesport",
+        "route_type": RouteTypes.BUS.value,
+        # "route_url": "",
+        # "route_color": "",
+        # "route_text_color": "",
+    },
+    {
+        "route_id": LUBEC_ROUTE_ID,
+        "agency_id": AGENCY_ID,
+        "route_short_name": LUBEC_ROUTE_ID,
+        "route_long_name": "Lubec to Machias",
+        "route_desc": "First Wednesday of the month service from Lubec to Machias",
+        "route_type": RouteTypes.BUS.value,
+        # "route_url": "",
+        # "route_color": "",
+        # "route_text_color": "",
+    },
+    {
+        "route_id": SCHOOL_ROUTE_ID,
+        "agency_id": AGENCY_ID,
+        "route_short_name": SCHOOL_ROUTE_ID,
+        "route_long_name": "Franklin to Winter Harbor",
+        "route_desc": "Weekday service during the school season from Franklin to Winter Harbor",
+        "route_type": RouteTypes.BUS.value,
+        # "route_url": "",
+        # "route_color": "",
+        # "route_text_color": "",
+    },
 ]
 
 TRIPS = [
     {
         "route_id": WEST_COASTAL_CONNECTION_ID,
-        "service_id": "daily",
+        "service_id": DAILY_SERVICE_ID,
         "trip_id": "WCCWB",
         "trip_short_name": "Bangor (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
@@ -111,7 +187,7 @@ TRIPS = [
     },
     {
         "route_id": WEST_COASTAL_CONNECTION_ID,
-        "service_id": "daily",
+        "service_id": DAILY_SERVICE_ID,
         "trip_id": "WCCEB",
         "trip_short_name": "Calais (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
@@ -135,19 +211,176 @@ TRIPS = [
             ("18:00", "STOP-9034671c-e991-4439-9e71-a05a8599a56f"),
         ],
     },
+    {
+        "route_id": ELLSWORTH_ROUTE_ID,
+        "service_id": MONDAY_SERVICE_ID,
+        "trip_id": "ELLSWB",
+        "trip_short_name": "Ellsworth (via Rt 1)",
+        "direction_id": DirectionId.OUTBOUND.value,
+        # "shape_id": "",  # TODO: shapes.shape_id
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("08:30", "STOP-b11bb36f-65f5-4bfe-abb8-bdf1d76ac3b9"),
+            ("08:35", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            ("09:00", "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e"),
+            ("09:05", "STOP-fc77e641-ea79-4e44-b050-16cf14331355"),
+            ("09:10", "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8"),
+            ("09:15", "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882"),
+            ("09:25", "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573"),
+            ("09:35", "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764"),
+            ("09:40", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+            ("10:30", "STOP-14ae1c74-7f7c-4204-be30-265e030a1c35"),
+        ],
+    },
+    {
+        "route_id": ELLSWORTH_ROUTE_ID,
+        "service_id": MONDAY_SERVICE_ID,
+        "trip_id": "ELLSEB",
+        "trip_short_name": "Beals Island (via Rt 1)",
+        "direction_id": DirectionId.INBOUND.value,
+        # "shape_id": "",  # TODO: shapes.shape_id
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("13:30", "STOP-14ae1c74-7f7c-4204-be30-265e030a1c35"),
+            ("14:05", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+            ("14:10", "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764"),
+            ("14:20", "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573"),
+            ("14:30", "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882"),
+            ("14:35", "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8"),
+            ("14:40", "STOP-fc77e641-ea79-4e44-b050-16cf14331355"),
+            ("14:45", "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e"),
+            ("15:00", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            ("15:05", "STOP-b11bb36f-65f5-4bfe-abb8-bdf1d76ac3b9"),
+        ],
+    },
+    {
+        "route_id": MACHIAS_ROUTE_ID,
+        "service_id": TUESDAY_SERVICE_ID,
+        "trip_id": "MACHEB",
+        "trip_short_name": "Machias (via Rt 1)",
+        "direction_id": DirectionId.OUTBOUND.value,
+        # "shape_id": "",  # TODO: shapes.shape_id
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("08:15", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+            ("08:20", "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764"),
+            ("08:25", "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573"),
+            ("08:30", "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882"),
+            ("08:35", "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8"),
+            ("08:40", "STOP-fc77e641-ea79-4e44-b050-16cf14331355"),
+            ("08:45", "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e"),
+            ("09:00", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            ("09:30", "STOP-477b3ace-4389-47e8-a4c7-cb32cd874a10"),
+        ],
+    },
+    {
+        "route_id": MACHIAS_ROUTE_ID,
+        "service_id": TUESDAY_SERVICE_ID,
+        "trip_id": "MACHWB",
+        "trip_short_name": "Steuben (via Rt 1)",
+        "direction_id": DirectionId.INBOUND.value,
+        # "shape_id": "",  # TODO: shapes.shape_id
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            # ORIGINAL from online
+            # ("12:00", "STOP-477b3ace-4389-47e8-a4c7-cb32cd874a10"),
+            # ("12:30", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            # ("12:35", "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e"),
+            # ("12:55", "STOP-fc77e641-ea79-4e44-b050-16cf14331355"),
+            # ("13:00", "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8"),
+            # ("13:30", "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882"),
+            # ("13:15", "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573"),
+            # ("13:30", "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764"),
+            # ("13:35", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+            # MODIFIED for realism
+            ("12:00", "STOP-477b3ace-4389-47e8-a4c7-cb32cd874a10"),
+            ("12:30", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            ("12:45", "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e"),
+            ("12:55", "STOP-fc77e641-ea79-4e44-b050-16cf14331355"),
+            ("13:00", "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8"),
+            # TODO: Ask why this stop time is incorrect online
+            ("13:10", "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882"),
+            ("13:15", "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573"),
+            ("13:30", "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764"),
+            ("13:35", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+        ],
+    },
+    {
+        "route_id": WEEKDAY_ROUTE_ID,
+        "service_id": WEEKDAY_SERVICE_ID,
+        "trip_id": "WEEKEB",
+        "trip_short_name": "Jonesport (via Rt 1)",
+        "direction_id": DirectionId.OUTBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("07:10", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+            ("07:40", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+        ],
+    },
+    {
+        "route_id": WEEKDAY_ROUTE_ID,
+        "service_id": WEEKDAY_SERVICE_ID,
+        "trip_id": "WEEKWB",
+        "trip_short_name": "Steuben (via Rt 1)",
+        "direction_id": DirectionId.INBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("16:00", "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b"),
+            ("16:30", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
+        ],
+    },
+    {
+        "route_id": LUBEC_ROUTE_ID,
+        "service_id": FW_OF_MONTH_SERVICE_ID,
+        "trip_id": "LBCEB",
+        "trip_short_name": "Machias (via Rt 1)",
+        "direction_id": DirectionId.INBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("8:45", "STOP-421bb314-1894-4c15-bb6f-0fec17fcb7d9"),
+            ("9:30", "STOP-477b3ace-4389-47e8-a4c7-cb32cd874a10"),
+        ],
+    },
+    {
+        "route_id": LUBEC_ROUTE_ID,
+        "service_id": FW_OF_MONTH_SERVICE_ID,
+        "trip_id": "LBCWB",
+        "trip_short_name": "Lubec (via Rt 1)",
+        "direction_id": DirectionId.OUTBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("11:30", "STOP-477b3ace-4389-47e8-a4c7-cb32cd874a10"),
+            ("12:15", "STOP-421bb314-1894-4c15-bb6f-0fec17fcb7d9"),
+        ],
+    },
+    {
+        "route_id": SCHOOL_ROUTE_ID,
+        "service_id": SCHOOL_SERVICE_ID,
+        "trip_id": "SCHLSB",
+        "trip_short_name": "Winter Harbor Garage",
+        "direction_id": DirectionId.OUTBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("8:40", "STOP-1332dd93-e6a0-45e1-b4fd-940d57659703"),
+            ("9:05", "STOP-1c531172-cfcf-4843-8de5-ca23289d30b5"),
+        ],
+    },
+    {
+        "route_id": SCHOOL_ROUTE_ID,
+        "service_id": SCHOOL_SERVICE_ID,
+        "trip_id": "SCHLNB",
+        "trip_short_name": "Franklin Trading Post",
+        "direction_id": DirectionId.INBOUND.value,
+        "bikes_allowed": BikesAllowed.YES.value,
+        "stop_times": [
+            ("13:35", "STOP-1c531172-cfcf-4843-8de5-ca23289d30b5"),
+            ("14:00", "STOP-1332dd93-e6a0-45e1-b4fd-940d57659703"),
+        ],
+    },
 ]
 
-# Get stops from geojson
-# gdf = gpd.read_file("gtfs/stops.geojson")
-# gdf["stop_id"] = [f"STOP-{uuid.uuid4()}" for _ in range(len(gdf.index))]
-# STOPS = list(gdf.apply(lambda row: {
-#       "stop_id": row.stop_id,
-#       "stop_name": row.stop_name,
-#       "stop_desc": row.stop_desc,
-#       "stop_lat": row.geometry.x,
-#       "stop_lon": row.geometry.y,
-# }, axis=1))
 STOPS = [
+    # WCC
     {
         "stop_id": "STOP-9034671c-e991-4439-9e71-a05a8599a56f",
         "stop_name": "Calais",
@@ -200,7 +433,7 @@ STOPS = [
     {
         "stop_id": "STOP-be554e9d-f180-450f-902b-a772328ac4dd",
         "stop_name": "Columbia",
-        "stop_desc": "Elmer\u2019s Discount",
+        "stop_desc": "Elmer's Discount",
         "stop_lat": -67.76299771361364,
         "stop_lon": 44.64287175736857,
     },
@@ -253,11 +486,105 @@ STOPS = [
         "stop_lat": -68.81786055142301,
         "stop_lon": 44.80905167866493,
     },
+    # ELLS
+    {
+        "stop_desc": "Post Office",
+        "stop_id": "STOP-b11bb36f-65f5-4bfe-abb8-bdf1d76ac3b9",
+        "stop_lat": -67.61194499329405,
+        "stop_lon": 44.51930662452464,
+        "stop_name": "Beals Island",
+    },
+    {
+        "stop_desc": "Post Office",
+        "stop_id": "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b",
+        "stop_lat": -67.60132912213578,
+        "stop_lon": 44.531450024100145,
+        "stop_name": "Jonesport",
+    },
+    {
+        "stop_desc": "Town Office",
+        "stop_id": "STOP-709e5965-7b27-4c47-a1de-1eedbea4350e",
+        "stop_lat": -67.72815087072122,
+        "stop_lon": 44.65327843995525,
+        "stop_name": "Addison",
+    },
+    {
+        "stop_desc": "Pleasant View Appartments",
+        "stop_id": "STOP-fc77e641-ea79-4e44-b050-16cf14331355",
+        "stop_lat": -67.73386558458837,
+        "stop_lon": 44.6358184790437,
+        "stop_name": "Columbia Falls",
+    },
+    {
+        "stop_desc": "4 Corners",
+        "stop_id": "STOP-a8fb5add-97f2-4284-8533-1f2181fdc6f8",
+        "stop_lat": -67.76194701794302,
+        "stop_lon": 44.64318156877917,
+        "stop_name": "Columbia",
+    },
+    {
+        "stop_desc": "Housing Appartments",
+        "stop_id": "STOP-a64ef87a-091d-47ea-9c17-8f1652e1d882",
+        "stop_lat": -67.80826855268631,
+        "stop_lon": 44.6201213065024,
+        "stop_name": "Harrington",
+    },
+    {
+        "stop_desc": "Narraguagus Estates",
+        "stop_id": "STOP-fc06a983-3770-4ca9-882e-4b90cd0c3573",
+        "stop_lat": -67.93183540873198,
+        "stop_lon": 44.59677148932213,
+        "stop_name": "Cherryfield",
+    },
+    {
+        "stop_desc": "West Manor",
+        "stop_id": "STOP-d6a9c3c6-72f3-47fb-9317-bd223cbd3764",
+        "stop_lat": -67.87995630656948,
+        "stop_lon": 44.53754398311699,
+        "stop_name": "Milbridge",
+    },
+    {
+        "stop_desc": "Town Office",
+        "stop_id": "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0",
+        "stop_lat": -67.96625333615914,
+        "stop_lon": 44.513255761192,
+        "stop_name": "Steuben",
+    },
+    {
+        "stop_desc": "Town",
+        "stop_id": "STOP-14ae1c74-7f7c-4204-be30-265e030a1c35",
+        "stop_lat": -68.42019965314486,
+        "stop_lon": 44.54300199772945,
+        "stop_name": "Ellsworth",
+    },
+    # Lubec
+    {
+        "stop_desc": "Town",
+        "stop_id": "STOP-421bb314-1894-4c15-bb6f-0fec17fcb7d9",
+        "stop_lat": -66.98336351926885,
+        "stop_lon": 44.85869201099502,
+        "stop_name": "Lubec",
+    },
+    # School Route
+    {
+        "stop_desc": "Franklin Trading Post",
+        "stop_id": "STOP-1332dd93-e6a0-45e1-b4fd-940d57659703",
+        "stop_lat": -68.22318410664123,
+        "stop_lon": 44.58890243818803,
+        "stop_name": "Franklin",
+    },
+    {
+        "stop_desc": "Winter Harbor Garage",
+        "stop_id": "STOP-1c531172-cfcf-4843-8de5-ca23289d30b5",
+        "stop_lat": -68.0851666416681,
+        "stop_lon": 44.394562204134324,
+        "stop_name": "Winter Harbor",
+    },
 ]
 
 CALENDAR = [
     {
-        "service_id": "daily",
+        "service_id": DAILY_SERVICE_ID,
         "monday": ServiceAvailable.YES.value,
         "tuesday": ServiceAvailable.YES.value,
         "wednesday": ServiceAvailable.YES.value,
@@ -266,8 +593,75 @@ CALENDAR = [
         "saturday": ServiceAvailable.YES.value,
         "sunday": ServiceAvailable.YES.value,
         "start_date": 20241121,
-        "end_date": 20251121,
-    }
+        "end_date": 20291121,
+    },
+    {
+        "service_id": WEEKDAY_SERVICE_ID,
+        "monday": ServiceAvailable.YES.value,
+        "tuesday": ServiceAvailable.YES.value,
+        "wednesday": ServiceAvailable.YES.value,
+        "thursday": ServiceAvailable.YES.value,
+        "friday": ServiceAvailable.YES.value,
+        "saturday": ServiceAvailable.NO.value,
+        "sunday": ServiceAvailable.NO.value,
+        "start_date": 20241121,
+        "end_date": 20291121,
+    },
+    {
+        "service_id": SCHOOL_SERVICE_ID,
+        "monday": ServiceAvailable.YES.value,
+        "tuesday": ServiceAvailable.YES.value,
+        "wednesday": ServiceAvailable.YES.value,
+        "thursday": ServiceAvailable.YES.value,
+        "friday": ServiceAvailable.YES.value,
+        "saturday": ServiceAvailable.NO.value,
+        "sunday": ServiceAvailable.NO.value,
+        "start_date": 20241121,
+        "end_date": 20250614,  # Last Day of Classes Machias
+    },
+    {
+        "service_id": MONDAY_SERVICE_ID,
+        "monday": ServiceAvailable.YES.value,
+        "tuesday": ServiceAvailable.NO.value,
+        "wednesday": ServiceAvailable.NO.value,
+        "thursday": ServiceAvailable.NO.value,
+        "friday": ServiceAvailable.NO.value,
+        "saturday": ServiceAvailable.NO.value,
+        "sunday": ServiceAvailable.NO.value,
+        "start_date": 20241121,
+        "end_date": 20291121,
+    },
+    {
+        "service_id": TUESDAY_SERVICE_ID,
+        "monday": ServiceAvailable.NO.value,
+        "tuesday": ServiceAvailable.YES.value,
+        "wednesday": ServiceAvailable.NO.value,
+        "thursday": ServiceAvailable.NO.value,
+        "friday": ServiceAvailable.NO.value,
+        "saturday": ServiceAvailable.NO.value,
+        "sunday": ServiceAvailable.NO.value,
+        "start_date": 20241121,
+        "end_date": 20291121,
+    },
+]
+
+CALENDAR_DATES = [
+    [
+        {
+            "service_id": FW_OF_MONTH_SERVICE_ID,
+            "date": int(f"{year:4}{month:02}{day:02}"),
+            "exception_type": ServiceException.ADDED.value,
+        }
+        # Look at the first week and choose the first wednesday
+        for day in range(1, 8)
+        if datetime(year=year, month=month, day=day).weekday()
+        == calendar.WEDNESDAY.value
+    ].pop()
+    # Look at each month for the next 5 years
+    for year, month in [
+        (now.year + (now.month - 1 + i) // 12, (now.month - 1 + i) % 12 + 1)
+        for i in range(12 * 5)
+    ]
 ]
 
 FILES = {
@@ -295,6 +689,7 @@ FILES = {
         for item in sublist
     ],
     "calendar.txt": CALENDAR,
+    "calendar_dates.txt": CALENDAR_DATES,
     "feed_info.txt": [FEED_INFO],
 }
 
