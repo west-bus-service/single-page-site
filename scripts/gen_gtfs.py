@@ -52,6 +52,7 @@ class ServiceException(Enum):
 
 
 AGENCY_ID = "WT"
+AGENCY_EMAIL = "westbus@ymail.com"
 WEST_COASTAL_CONNECTION_ID = "WCC"
 ELLSWORTH_ROUTE_ID = "ELLS"
 MACHIAS_ROUTE_ID = "MACH"
@@ -75,13 +76,13 @@ AGENCY = {
     # Agency Timezone
     "agency_timezone": "America/New_York",
     "agency_phone": "207-546-2823",
-    "agency_email": "westbus@ymail.com",
+    "agency_email": AGENCY_EMAIL,
 }
 
 FEED_INFO = {
     "feed_publisher_name": AGENCY["agency_name"],
     "feed_publisher_url": AGENCY["agency_url"],
-    "feed_contact_email": "westbus@ymail.com",
+    "feed_contact_email": AGENCY_EMAIL,
     "feed_contact_url": AGENCY["agency_url"],
     "feed_lang": "en-US",
     "feed_version": 1,
