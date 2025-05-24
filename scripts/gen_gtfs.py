@@ -4,6 +4,7 @@ import calendar
 import os
 import shutil
 import tempfile
+import geojson
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
@@ -14,6 +15,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 feed_path = Path(script_dir).parent / "west_gtfs"
 
 now = datetime.now()
+
 
 class RouteTypes(Enum):
     TRAM = 0  # Tram, Streetcar, Light rail. Any light rail or street level system within a metropolitan area.
@@ -49,6 +51,13 @@ class ServiceAvailable(Enum):
 class ServiceException(Enum):
     ADDED = 1  # Service is added
     REMOVED = 2  # Service is removed
+
+
+def _coords(fp):
+    """Helper to open fp and return its first feature’s LineString coords."""
+    with open(fp, "r", encoding="utf-8") as f:
+        fc = geojson.load(f)
+    return fc.features[0].geometry.coordinates
 
 
 AGENCY_ID = "WT"
@@ -166,7 +175,7 @@ TRIPS = [
         "trip_id": "WCCWB",
         "trip_short_name": "Bangor (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "WCCWB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             ("09:30", "STOP-9034671c-e991-4439-9e71-a05a8599a56f"),
@@ -192,7 +201,7 @@ TRIPS = [
         "trip_id": "WCCEB",
         "trip_short_name": "Calais (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "WCCEB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             ("14:00", "STOP-3012643a-132d-4c0d-974e-cdc8714f9368"),
@@ -468,7 +477,7 @@ STOPS = [
     },
     {
         "stop_id": "STOP-2cd4673a-e3d0-472f-9654-37a6c9233e4a",
-        "stop_name": "Hancock",
+        "stop_name": "Ellsworth",
         "stop_desc": "Main Entrance Mill Mall, Out Back",
         "stop_lat": 44.551403972284845,
         "stop_lon": -68.43000587506339,
@@ -583,6 +592,23 @@ STOPS = [
     },
 ]
 
+features = [
+    geojson.Feature(
+        geometry=geojson.Point((s["stop_lon"], s["stop_lat"])),
+        properties={
+            "stop_id": s["stop_id"],
+            "stop_name": s["stop_name"],
+            "stop_desc": s["stop_desc"],
+        },
+    )
+    for s in STOPS
+]
+
+# Wrap in a FeatureCollection and write out
+fc = geojson.FeatureCollection(features)
+with open(f"{script_dir}/stops.geojson", "w") as f:
+    geojson.dump(fc, f, sort_keys=True, indent=2)
+
 CALENDAR = [
     {
         "service_id": DAILY_SERVICE_ID,
@@ -692,6 +718,19 @@ FILES = {
     "calendar.txt": CALENDAR,
     "calendar_dates.txt": CALENDAR_DATES,
     "feed_info.txt": [FEED_INFO],
+    "shapes.txt": [
+        {
+            "shape_id": trip["shape_id"],
+            "shape_pt_lat": lat,
+            "shape_pt_lon": lon,
+            "shape_pt_sequence": seq,
+        }
+        for trip in TRIPS
+        if "shape_id" in trip
+        for seq, (lon, lat, *_) in enumerate(
+            _coords(f"{script_dir}/shapes/{trip['shape_id']}.geojson"), start=1
+        )
+    ],
 }
 
 
