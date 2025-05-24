@@ -4,6 +4,7 @@ import calendar
 import os
 import shutil
 import tempfile
+import json
 import geojson
 from datetime import datetime
 from enum import Enum
@@ -227,7 +228,7 @@ TRIPS = [
         "trip_id": "ELLSWB",
         "trip_short_name": "Ellsworth (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "ELLSWB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             ("08:30", "STOP-b11bb36f-65f5-4bfe-abb8-bdf1d76ac3b9"),
@@ -248,7 +249,7 @@ TRIPS = [
         "trip_id": "ELLSEB",
         "trip_short_name": "Beals Island (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "ELLSEB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             ("13:30", "STOP-14ae1c74-7f7c-4204-be30-265e030a1c35"),
@@ -269,7 +270,7 @@ TRIPS = [
         "trip_id": "MACHEB",
         "trip_short_name": "Machias (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "MACHEB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             ("08:15", "STOP-e3f84be2-a7a6-43f9-8489-76cefb81d9c0"),
@@ -289,7 +290,7 @@ TRIPS = [
         "trip_id": "MACHWB",
         "trip_short_name": "Steuben (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
-        # "shape_id": "",  # TODO: shapes.shape_id
+        "shape_id": "MACHWB",
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
             # ORIGINAL from online
@@ -319,6 +320,7 @@ TRIPS = [
         "route_id": WEEKDAY_ROUTE_ID,
         "service_id": WEEKDAY_SERVICE_ID,
         "trip_id": "WEEKEB",
+        "shape_id": "WEEKEB",
         "trip_short_name": "Jonesport (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -331,6 +333,7 @@ TRIPS = [
         "route_id": WEEKDAY_ROUTE_ID,
         "service_id": WEEKDAY_SERVICE_ID,
         "trip_id": "WEEKWB",
+        "shape_id": "WEEKWB",
         "trip_short_name": "Steuben (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -342,7 +345,8 @@ TRIPS = [
     {
         "route_id": LUBEC_ROUTE_ID,
         "service_id": FW_OF_MONTH_SERVICE_ID,
-        "trip_id": "LBCEB",
+        "trip_id": "LBCWB",
+        "shape_id": "LBCWB",
         "trip_short_name": "Machias (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -354,7 +358,8 @@ TRIPS = [
     {
         "route_id": LUBEC_ROUTE_ID,
         "service_id": FW_OF_MONTH_SERVICE_ID,
-        "trip_id": "LBCWB",
+        "trip_id": "LBCEB",
+        "shape_id": "LBCEB",
         "trip_short_name": "Lubec (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -367,6 +372,7 @@ TRIPS = [
         "route_id": SCHOOL_ROUTE_ID,
         "service_id": SCHOOL_SERVICE_ID,
         "trip_id": "SCHLSB",
+        "shape_id": "SCHLSB",
         "trip_short_name": "Winter Harbor Garage",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -379,6 +385,7 @@ TRIPS = [
         "route_id": SCHOOL_ROUTE_ID,
         "service_id": SCHOOL_SERVICE_ID,
         "trip_id": "SCHLNB",
+        "shape_id": "SCHLNB",
         "trip_short_name": "Franklin Trading Post",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
@@ -592,6 +599,7 @@ STOPS = [
     },
 ]
 
+# Generate stops.geojson
 features = [
     geojson.Feature(
         geometry=geojson.Point((s["stop_lon"], s["stop_lat"])),
@@ -608,6 +616,26 @@ features = [
 fc = geojson.FeatureCollection(features)
 with open(f"{script_dir}/stops.geojson", "w") as f:
     geojson.dump(fc, f, sort_keys=True, indent=2)
+
+# Generate route URLs
+stop_lookup = {s["stop_id"]: (s["stop_lon"], s["stop_lat"]) for s in STOPS}
+
+# 2) Generate URLs for each trip
+base = "https://brouter.de/brouter-web/#map=11/44.5866/-68.0370/standard&lonlats="
+suffix = "&profile=car-fast"
+
+urls = {
+    trip["trip_id"]: (
+        base
+        + ";".join(
+            ",".join(map(str, stop_lookup[stop_id]))
+            for _, stop_id in trip["stop_times"]
+        )
+        + suffix
+    )
+    for trip in TRIPS
+}
+print(json.dumps(urls, indent=2))
 
 CALENDAR = [
     {
