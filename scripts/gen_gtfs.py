@@ -416,15 +416,15 @@ STOPS = [
         "stop_id": "STOP-2ad237c0-4dfe-4a50-a8cd-cec8972e1922",
         "stop_name": "Pembroke",
         "stop_desc": "Corner of Rt. 214 & Rt. 1",
-        "stop_lat": 44.949701161833104,
-        "stop_lon": -67.17868296829499,
+        "stop_lat": 44.94965682737453,
+        "stop_lon": -67.17849654043128,
     },
     {
         "stop_id": "STOP-c48d97aa-f7b1-4560-b697-048d4aca8f74",
         "stop_name": "Dennysville",
         "stop_desc": "Cobscook Bay Cafe",
-        "stop_lat": 44.908957562098266,
-        "stop_lon": -67.22544494819728,
+        "stop_lat": 44.90308868913789,
+        "stop_lon": -67.22050781904481,
     },
     {
         "stop_id": "STOP-d530cc40-12bd-4071-95de-52fbaf1d7d23",
@@ -514,8 +514,8 @@ STOPS = [
     {
         "stop_desc": "Post Office",
         "stop_id": "STOP-cce489d3-8d6c-4e48-813d-c2d1d2acb90b",
-        "stop_lat": 44.531450024100145,
-        "stop_lon": -67.60132912213578,
+        "stop_lat": 44.531579513613664,
+        "stop_lon": -67.60136565981361,
         "stop_name": "Jonesport",
     },
     {
@@ -600,7 +600,7 @@ STOPS = [
 ]
 
 # Generate stops.geojson
-features = [
+fc = geojson.FeatureCollection([
     geojson.Feature(
         geometry=geojson.Point((s["stop_lon"], s["stop_lat"])),
         properties={
@@ -610,10 +610,7 @@ features = [
         },
     )
     for s in STOPS
-]
-
-# Wrap in a FeatureCollection and write out
-fc = geojson.FeatureCollection(features)
+])
 with open(f"{script_dir}/stops.geojson", "w") as f:
     geojson.dump(fc, f, sort_keys=True, indent=2)
 
