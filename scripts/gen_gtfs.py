@@ -89,6 +89,9 @@ AGENCY = {
     "agency_email": AGENCY_EMAIL,
 }
 
+FEED_START = 20250723
+FEED_END = 20271231
+
 FEED_INFO = {
     "feed_publisher_name": AGENCY["agency_name"],
     "feed_publisher_url": AGENCY["agency_url"],
@@ -96,15 +99,14 @@ FEED_INFO = {
     "feed_contact_url": AGENCY["agency_url"],
     "feed_lang": "en-US",
     "feed_version": 1,
-    "feed_start_date": 20241121,
-    "feed_end_date": 20291121,
+    "feed_start_date": FEED_START,
+    "feed_end_date": FEED_END,
 }
 
 ROUTES = [
     {
         "route_id": WEST_COASTAL_CONNECTION_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": WEST_COASTAL_CONNECTION_ID,
         "route_long_name": "West's Coastal Connection",
         "route_desc": "Daily public bus service from Calais to Bangor and points in between",
         "route_type": RouteTypes.BUS.value,
@@ -115,7 +117,6 @@ ROUTES = [
     {
         "route_id": ELLSWORTH_ROUTE_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": ELLSWORTH_ROUTE_ID,
         "route_long_name": "Monday Bus to Ellsworth",
         "route_desc": "Monday service from Beals Island to Ellsworth",
         "route_type": RouteTypes.BUS.value,
@@ -126,7 +127,6 @@ ROUTES = [
     {
         "route_id": MACHIAS_ROUTE_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": MACHIAS_ROUTE_ID,
         "route_long_name": "Tuesday Bus to Machias",
         "route_desc": "Tuesday service from Steuben to Machias",
         "route_type": RouteTypes.BUS.value,
@@ -137,7 +137,6 @@ ROUTES = [
     {
         "route_id": WEEKDAY_ROUTE_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": WEEKDAY_ROUTE_ID,
         "route_long_name": "Steuben to Jonesport",
         "route_desc": "Weekday service from Steuben to Jonesport",
         "route_type": RouteTypes.BUS.value,
@@ -148,7 +147,6 @@ ROUTES = [
     {
         "route_id": LUBEC_ROUTE_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": LUBEC_ROUTE_ID,
         "route_long_name": "Lubec to Machias",
         "route_desc": "First Wednesday of the month service from Lubec to Machias",
         "route_type": RouteTypes.BUS.value,
@@ -159,7 +157,6 @@ ROUTES = [
     {
         "route_id": SCHOOL_ROUTE_ID,
         "agency_id": AGENCY_ID,
-        "route_short_name": SCHOOL_ROUTE_ID,
         "route_long_name": "Franklin to Winter Harbor",
         "route_desc": "Weekday service during the school season from Franklin to Winter Harbor",
         "route_type": RouteTypes.BUS.value,
@@ -174,7 +171,6 @@ TRIPS = [
         "route_id": WEST_COASTAL_CONNECTION_ID,
         "service_id": DAILY_SERVICE_ID,
         "trip_id": "WCCWB",
-        "trip_short_name": "Bangor (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "shape_id": "WCCWB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -200,7 +196,6 @@ TRIPS = [
         "route_id": WEST_COASTAL_CONNECTION_ID,
         "service_id": DAILY_SERVICE_ID,
         "trip_id": "WCCEB",
-        "trip_short_name": "Calais (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "shape_id": "WCCEB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -226,7 +221,6 @@ TRIPS = [
         "route_id": ELLSWORTH_ROUTE_ID,
         "service_id": MONDAY_SERVICE_ID,
         "trip_id": "ELLSWB",
-        "trip_short_name": "Ellsworth (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "shape_id": "ELLSWB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -247,7 +241,6 @@ TRIPS = [
         "route_id": ELLSWORTH_ROUTE_ID,
         "service_id": MONDAY_SERVICE_ID,
         "trip_id": "ELLSEB",
-        "trip_short_name": "Beals Island (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "shape_id": "ELLSEB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -268,7 +261,6 @@ TRIPS = [
         "route_id": MACHIAS_ROUTE_ID,
         "service_id": TUESDAY_SERVICE_ID,
         "trip_id": "MACHEB",
-        "trip_short_name": "Machias (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "shape_id": "MACHEB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -288,7 +280,6 @@ TRIPS = [
         "route_id": MACHIAS_ROUTE_ID,
         "service_id": TUESDAY_SERVICE_ID,
         "trip_id": "MACHWB",
-        "trip_short_name": "Steuben (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "shape_id": "MACHWB",
         "bikes_allowed": BikesAllowed.YES.value,
@@ -321,7 +312,6 @@ TRIPS = [
         "service_id": WEEKDAY_SERVICE_ID,
         "trip_id": "WEEKEB",
         "shape_id": "WEEKEB",
-        "trip_short_name": "Jonesport (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -334,7 +324,6 @@ TRIPS = [
         "service_id": WEEKDAY_SERVICE_ID,
         "trip_id": "WEEKWB",
         "shape_id": "WEEKWB",
-        "trip_short_name": "Steuben (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -347,7 +336,6 @@ TRIPS = [
         "service_id": FW_OF_MONTH_SERVICE_ID,
         "trip_id": "LBCWB",
         "shape_id": "LBCWB",
-        "trip_short_name": "Machias (via Rt 1)",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -360,7 +348,6 @@ TRIPS = [
         "service_id": FW_OF_MONTH_SERVICE_ID,
         "trip_id": "LBCEB",
         "shape_id": "LBCEB",
-        "trip_short_name": "Lubec (via Rt 1)",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -373,7 +360,6 @@ TRIPS = [
         "service_id": SCHOOL_SERVICE_ID,
         "trip_id": "SCHLSB",
         "shape_id": "SCHLSB",
-        "trip_short_name": "Winter Harbor Garage",
         "direction_id": DirectionId.OUTBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -386,7 +372,6 @@ TRIPS = [
         "service_id": SCHOOL_SERVICE_ID,
         "trip_id": "SCHLNB",
         "shape_id": "SCHLNB",
-        "trip_short_name": "Franklin Trading Post",
         "direction_id": DirectionId.INBOUND.value,
         "bikes_allowed": BikesAllowed.YES.value,
         "stop_times": [
@@ -644,8 +629,8 @@ CALENDAR = [
         "friday": ServiceAvailable.YES.value,
         "saturday": ServiceAvailable.YES.value,
         "sunday": ServiceAvailable.YES.value,
-        "start_date": 20241121,
-        "end_date": 20291121,
+        "start_date": FEED_START,
+        "end_date": FEED_END,
     },
     {
         "service_id": WEEKDAY_SERVICE_ID,
@@ -656,8 +641,8 @@ CALENDAR = [
         "friday": ServiceAvailable.YES.value,
         "saturday": ServiceAvailable.NO.value,
         "sunday": ServiceAvailable.NO.value,
-        "start_date": 20241121,
-        "end_date": 20291121,
+        "start_date": FEED_START,
+        "end_date": FEED_END,
     },
     {
         "service_id": SCHOOL_SERVICE_ID,
@@ -668,8 +653,8 @@ CALENDAR = [
         "friday": ServiceAvailable.YES.value,
         "saturday": ServiceAvailable.NO.value,
         "sunday": ServiceAvailable.NO.value,
-        "start_date": 20241121,
-        "end_date": 20250614,  # Last Day of Classes Machias
+        "start_date": 20250902,
+        "end_date": 20260515,  # https://machias.edu/registrar/wp-content/uploads/sites/93/2024/08/2025-2026-Academic-Calendar.pdf
     },
     {
         "service_id": MONDAY_SERVICE_ID,
@@ -680,8 +665,8 @@ CALENDAR = [
         "friday": ServiceAvailable.NO.value,
         "saturday": ServiceAvailable.NO.value,
         "sunday": ServiceAvailable.NO.value,
-        "start_date": 20241121,
-        "end_date": 20291121,
+        "start_date": FEED_START,
+        "end_date": FEED_END,
     },
     {
         "service_id": TUESDAY_SERVICE_ID,
@@ -692,8 +677,8 @@ CALENDAR = [
         "friday": ServiceAvailable.NO.value,
         "saturday": ServiceAvailable.NO.value,
         "sunday": ServiceAvailable.NO.value,
-        "start_date": 20241121,
-        "end_date": 20291121,
+        "start_date": FEED_START,
+        "end_date": FEED_END,
     },
 ]
 
@@ -709,10 +694,10 @@ CALENDAR_DATES = [
         if datetime(year=year, month=month, day=day).weekday()
         == calendar.WEDNESDAY.value
     ].pop()
-    # Look at each month for the next 5 years
+    # Look at each month for the next 2 years
     for year, month in [
         (now.year + (now.month - 1 + i) // 12, (now.month - 1 + i) % 12 + 1)
-        for i in range(12 * 5)
+        for i in range(12 * 2)
     ]
 ]
 
