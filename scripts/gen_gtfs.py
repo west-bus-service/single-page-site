@@ -107,6 +107,7 @@ ROUTES = [
     {
         "route_id": WEST_COASTAL_CONNECTION_ID,
         "agency_id": AGENCY_ID,
+        "route_short_name": "WCC",
         "route_long_name": "West's Coastal Connection",
         "route_desc": "Daily public bus service from Calais to Bangor and points in between",
         "route_type": RouteTypes.BUS.value,
@@ -117,6 +118,7 @@ ROUTES = [
     {
         "route_id": ELLSWORTH_ROUTE_ID,
         "agency_id": AGENCY_ID,
+        "route_short_name": "Ellsworth",
         "route_long_name": "Monday Bus to Ellsworth",
         "route_desc": "Monday service from Beals Island to Ellsworth",
         "route_type": RouteTypes.BUS.value,
@@ -127,6 +129,7 @@ ROUTES = [
     {
         "route_id": MACHIAS_ROUTE_ID,
         "agency_id": AGENCY_ID,
+        "route_short_name": "Machias",
         "route_long_name": "Tuesday Bus to Machias",
         "route_desc": "Tuesday service from Steuben to Machias",
         "route_type": RouteTypes.BUS.value,
@@ -147,6 +150,7 @@ ROUTES = [
     {
         "route_id": LUBEC_ROUTE_ID,
         "agency_id": AGENCY_ID,
+        "route_short_name": "Lubec",
         "route_long_name": "Lubec to Machias",
         "route_desc": "First Wednesday of the month service from Lubec to Machias",
         "route_type": RouteTypes.BUS.value,
@@ -157,6 +161,7 @@ ROUTES = [
     {
         "route_id": SCHOOL_ROUTE_ID,
         "agency_id": AGENCY_ID,
+        "route_short_name": "Winter Hbr",
         "route_long_name": "Franklin to Winter Harbor",
         "route_desc": "Weekday service during the school season from Franklin to Winter Harbor",
         "route_type": RouteTypes.BUS.value,
@@ -381,22 +386,28 @@ TRIPS = [
     },
 ]
 
+
 # Load stops from stops.geojson
 def load_stops():
     with open(f"{script_dir}/stops.geojson", "r", encoding="utf-8") as f:
         stops_geojson = geojson.load(f)
-    
+
     stops = []
     for feature in stops_geojson["features"]:
         stop = {
             "stop_id": feature["properties"]["stop_id"],
             "stop_name": feature["properties"]["stop_name"],
             "stop_desc": feature["properties"]["stop_desc"],
-            "stop_lat": feature["geometry"]["coordinates"][1],  # lat is second coordinate
-            "stop_lon": feature["geometry"]["coordinates"][0],  # lon is first coordinate
+            "stop_lat": feature["geometry"]["coordinates"][
+                1
+            ],  # lat is second coordinate
+            "stop_lon": feature["geometry"]["coordinates"][
+                0
+            ],  # lon is first coordinate
         }
         stops.append(stop)
     return stops
+
 
 STOPS = load_stops()
 
