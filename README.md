@@ -31,15 +31,15 @@ Fares use GTFS Fares v2. Fares that change on a date are split by `timeframes.tx
 
 ## Printable brochure
 
-`npm run build` also prints a trifold brochure from the same schedule data to `brochure.pdf` (English) and `brochure-es.pdf` (Spanish) at the site root, using headless Chrome (via puppeteer-core). The route maps load basemap tiles from OpenFreeMap, so the build needs network access. The text is in `_data/brochure.js` and the layout in `brochure/`. If Chrome isn't found locally, set `CHROME_PATH` to a Chrome or Chromium binary.
+`pnpm build` also prints a trifold brochure from the same schedule data to `brochure.pdf` (English) and `brochure-es.pdf` (Spanish) at the site root, using headless Chrome (via puppeteer-core). The route maps load basemap tiles from OpenFreeMap, so the build needs network access. The text is in `_data/brochure.js` and the layout in `brochure/`. If Chrome isn't found locally, set `CHROME_PATH` to a Chrome or Chromium binary.
 
 ## Local development
 
 Requires Node 22.
 
 ```sh
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
-The site is served at http://localhost:8080 and rebuilds on changes. `npm run build` writes the site to `_site/`.
+The site is served at http://localhost:8080 and rebuilds on changes. `pnpm build` writes the site to `_site/`.
