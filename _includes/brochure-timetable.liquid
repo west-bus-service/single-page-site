@@ -1,0 +1,43 @@
+{%- assign tr = t.routes[route.id] -%}
+<div class="route" style="--route: {{ route.color }}; --route-text: {{ route.textColor }}">
+  {% unless hideName %}<h3 class="route-name">{{ tr.name | default: route.name }}</h3>
+  <p class="route-meta">{{ tr.desc | default: route.description }}</p>{% endunless %}
+  <div class="route-map" data-route="{{ route.id }}"></div>
+  <table class="tt{% if route.hasRowFares %} tt-fares{% endif %}">
+    <thead>
+      <tr>
+        <th scope="col" class="tt-town"{% if route.hasRowFares %} rowspan="2"{% endif %}>{{ t.town }} / {{ t.stop }}</th>
+        <th scope="col" class="tt-time"{% if route.hasRowFares %} rowspan="2"{% endif %}>{{ t.to }} {{ route.outTown }}</th>
+        {% if route.backTown != "" %}<th scope="col" class="tt-time"{% if route.hasRowFares %} rowspan="2"{% endif %}>{{ t.to }} {{ route.backTown }}</th>{% endif %}
+        {% if route.hasRowFares %}
+        {% for p in periods %}<th scope="colgroup" colspan="2" class="tt-fare tt-period">{% if p.kind == "until" %}{{ t.until }} {{ p.end | gtfsDate: t.locale, "short" }}{% else %}{{ t.from }} {{ p.start | gtfsDate: t.locale, "short" }}{% endif %}</th>{% endfor %}
+        {% endif %}
+      </tr>
+      {% if route.hasRowFares %}
+      <tr>
+        {% for p in periods %}<th scope="col" class="tt-fare">{{ t.oneWayShort }}</th><th scope="col" class="tt-fare">{{ t.roundTripShort }}</th>{% endfor %}
+      </tr>
+      {% endif %}
+    </thead>
+    <tbody>
+      {% for row in route.rows %}
+      <tr>
+        <th scope="row" class="tt-town">{% if row.flag %}<img class="flag" src="../flag2_red.gif" alt=""> {% endif %}<strong>{{ row.town }}</strong><span class="tt-stop">{{ row.location }}</span></th>
+        <td class="tt-time">{{ row.out }}</td>
+        {% if route.backTown != "" %}<td class="tt-time">{{ row.back }}</td>{% endif %}
+        {% if route.hasRowFares %}
+        {% for p in periods %}{% assign f = row.fares[p.id] %}<td class="tt-fare">{{ f.oneWay }}</td><td class="tt-fare">{{ f.roundTrip }}</td>{% endfor %}
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if route.fares %}
+  <ul class="fares">
+    {% for p in periods %}{% assign f = route.fares[p.id] %}
+    <li><strong>{% if p.kind == "until" %}{{ t.until }} {{ p.end | gtfsDate: t.locale }}{% else %}{{ t.from }} {{ p.start | gtfsDate: t.locale }}{% endif %}:</strong>
+      {% if f.oneWay %}{{ t.oneWay }} {{ f.oneWay }}{% endif %}{% if f.oneWay and f.roundTrip %}, {% endif %}{% if f.roundTrip %}{{ t.roundTrip }} {{ f.roundTrip }}{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>

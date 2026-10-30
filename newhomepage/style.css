@@ -1,0 +1,496 @@
+:root {
+  color-scheme: light;
+  --red: #b00000;
+  --navy: #14285f;
+  --ink: #1b1b1b;
+  --muted: #4a4a4a;
+  --paper: #fffdf8;
+  --backdrop: #efe9da;
+  --yellow: #fff1a8;
+  --yellow-strong: #ffe14d;
+  --line: #d9cfb6;
+  --link: #0b3d91;
+  --link-visited: #5b2a86;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font: 18px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--backdrop);
+  background-image: linear-gradient(rgba(239, 233, 218, 0.82), rgba(239, 233, 218, 0.82)), url("../stage3.gif");
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.15em;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* Main content column */
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--paper);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.12);
+}
+
+section {
+  padding: 2rem 24px;
+  border-top: 4px double var(--line);
+  text-align: center;
+}
+
+h2 {
+  margin: 0 0 1rem;
+  color: var(--red);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.3rem;
+}
+
+.section-sub {
+  margin: 2rem 0 1rem;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.lede {
+  color: var(--navy);
+  font-size: 1.15rem;
+}
+
+.call,
+.reservations {
+  font-weight: 700;
+  color: var(--red);
+  font-size: 1.2rem;
+}
+
+/* Hero */
+.hero {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.hero-img {
+  display: block;
+  width: calc(100% + 48px);
+  max-width: none;
+  height: auto;
+  margin: 0 -24px 1.5rem;
+}
+
+.alert {
+  margin: 0 auto 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--yellow-strong);
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.alert-time {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.hero-phone {
+  margin: 0;
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.hero-phone a,
+.hero-phone a:visited {
+  color: var(--red);
+  text-decoration: none;
+}
+
+.hero-tag {
+  margin: 0.5rem 0;
+  color: var(--red);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.hero-sub {
+  margin: 0 auto;
+  max-width: 28rem;
+  color: var(--navy);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.hero-cta {
+  margin: 1.25rem 0;
+  color: var(--red);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.small-heading {
+  font-size: 1.3rem;
+  color: var(--navy);
+  font-style: italic;
+  text-transform: none;
+}
+
+.connections {
+  margin-top: 1.5rem;
+}
+
+.connections > .small-heading {
+  margin-bottom: 0.75rem;
+}
+
+.connection {
+  display: inline-block;
+  vertical-align: top;
+  min-width: 16rem;
+  margin: 0 0.5rem 1rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.connection p {
+  margin: 0.4rem 0 0;
+}
+
+/* Communities */
+.towns {
+  list-style: none;
+  margin: 0 auto 1.5rem;
+  padding: 0;
+  max-width: 46rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.towns li {
+  padding: 0.2rem 0.7rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--navy);
+  font-weight: 600;
+}
+
+.towns a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.towns a:hover,
+.towns a:focus-visible {
+  text-decoration: underline;
+}
+
+.towns small {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* Route maps */
+.route-map {
+  height: 340px;
+  max-height: 60vh;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.maplibregl-popup-content {
+  font: 15px/1.4 system-ui, sans-serif;
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+
+.popup h4 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+.popup .where {
+  margin: 0 0 0.4rem;
+  color: var(--muted);
+}
+
+.popup .svc {
+  margin-top: 0.4rem;
+  padding-left: 0.5rem;
+  border-left: 4px solid var(--route);
+}
+
+.popup .svc strong {
+  display: block;
+}
+
+/* Timetables */
+.route-card {
+  margin: 1.5rem 0;
+  text-align: left;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--route);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.route-head {
+  padding: 0.9rem 1rem 0.5rem;
+}
+
+.route-service {
+  margin: 0.1rem 0 0;
+  color: var(--red);
+  font-weight: 700;
+}
+
+.route-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.next-dates {
+  margin: 0 1rem 0.75rem;
+  font-weight: 600;
+}
+
+.next-dates .date {
+  display: inline-block;
+  margin: 0.2rem 0.3rem 0 0;
+  padding: 0.1rem 0.6rem;
+  background: var(--yellow);
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.next-dates .date[hidden] {
+  display: none;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.timetable th,
+.timetable td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.timetable thead th {
+  background: var(--yellow);
+  color: var(--ink);
+  text-align: left;
+  font-size: 0.95rem;
+  border-bottom: 2px solid var(--red);
+  white-space: nowrap;
+}
+
+.timetable thead .period {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.timetable tbody th {
+  text-align: left;
+  font-weight: 700;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.timetable tbody tr:nth-child(even) {
+  background: #fbf8ef;
+}
+
+.timetable .time,
+.timetable .fare {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.timetable td.fare {
+  font-weight: 600;
+}
+
+.flag {
+  vertical-align: -2px;
+}
+
+.fare-list {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  background: #fbf8ef;
+}
+
+.legend-note {
+  margin: 0;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.notes {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+/* General information */
+.info,
+.spanish {
+  text-align: left;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.info strong {
+  color: var(--navy);
+}
+
+.bullets {
+  padding-left: 1.25rem;
+}
+
+.funded {
+  font-weight: 700;
+  text-align: center;
+}
+
+.button,
+.button:visited {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.spanish {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.spanish h3 {
+  margin-top: 0.25rem;
+}
+
+.spanish strong {
+  color: var(--navy);
+}
+
+/* Contact */
+.contact {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.contact dt {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.contact dd {
+  margin: 0;
+}
+
+.footer {
+  padding: 1.5rem 24px 2rem;
+  border-top: 4px double var(--line);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 17px;
+  }
+
+  section {
+    padding: 1.5rem 16px;
+  }
+
+  .hero-img {
+    width: calc(100% + 32px);
+    margin: 0 -16px 1.25rem;
+  }
+
+  .route-map {
+    height: 280px;
+  }
+
+  .connection {
+    display: block;
+    min-width: 0;
+    margin: 0 0 1rem;
+  }
+
+  .contact {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .contact dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,60 @@
+<div class="route-card" style="--route: {{ route.color }}">
+  <div class="route-head">
+    <h3>{{ route.name }}</h3>
+    <p class="route-service">{{ route.service }}</p>
+    <p class="route-desc">{{ route.description }}</p>
+  </div>
+  <div class="route-map" data-route="{{ route.id }}" role="region" aria-label="Map of {{ route.name }}"></div>
+  {% if route.upcomingDates.size > 0 %}
+  <p class="next-dates">Next trips:
+    {% for d in route.upcomingDates %}<span class="date" data-date="{{ d.iso }}"{% if forloop.index > 3 %} hidden{% endif %}>{{ d.label }}</span>{% endfor %}
+  </p>
+  {% endif %}
+  <div class="table-wrap">
+    <table class="timetable">
+      <thead>
+        <tr>
+          <th scope="col" rowspan="{% if route.hasRowFares %}2{% else %}1{% endif %}">Town</th>
+          <th scope="col" rowspan="{% if route.hasRowFares %}2{% else %}1{% endif %}">Stop</th>
+          <th scope="col" rowspan="{% if route.hasRowFares %}2{% else %}1{% endif %}">{{ route.outLabel }}</th>
+          {% if route.backLabel != "" %}<th scope="col" rowspan="{% if route.hasRowFares %}2{% else %}1{% endif %}">{{ route.backLabel }}</th>{% endif %}
+          {% if route.hasRowFares %}
+          {% for p in periods %}<th scope="colgroup" colspan="2" class="fare" data-period-end="{{ p.end }}">Fares to Bangor*<br><span class="period">{{ p.label }}</span></th>{% endfor %}
+          {% endif %}
+        </tr>
+        {% if route.hasRowFares %}
+        <tr>
+          {% for p in periods %}<th scope="col" class="fare" data-period-end="{{ p.end }}">1-Way</th><th scope="col" class="fare" data-period-end="{{ p.end }}">2-Way</th>{% endfor %}
+        </tr>
+        {% endif %}
+      </thead>
+      <tbody>
+        {% for row in route.rows %}
+        <tr>
+          <th scope="row">{% if row.flag %}<img class="flag" src="../flag2_red.gif" alt="Flag stop" width="20" height="16"> {% endif %}{{ row.town }}</th>
+          <td>{{ row.location }}</td>
+          <td class="time">{{ row.out }}</td>
+          {% if route.backLabel != "" %}<td class="time">{{ row.back }}</td>{% endif %}
+          {% if route.hasRowFares %}
+          {% for p in periods %}
+          {% assign f = row.fares[p.id] %}
+          <td class="fare" data-period-end="{{ p.end }}">{{ f.oneWay }}</td><td class="fare" data-period-end="{{ p.end }}">{{ f.roundTrip }}</td>
+          {% endfor %}
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if route.fares %}
+  <ul class="fare-list">
+    {% for p in periods %}
+    {% assign f = route.fares[p.id] %}
+    <li data-period-end="{{ p.end }}"><strong>{{ p.label }}:</strong>
+      {% if f.oneWay %}One way {{ f.oneWay }}{% endif %}{% if f.oneWay and f.roundTrip %}, {% endif %}{% if f.roundTrip %}Round trip {{ f.roundTrip }}{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if route.hasRowFares %}<p class="legend-note"><img class="flag" src="../flag2_red.gif" alt="" width="20" height="16"> Towns with red flags are flag stops only.</p>{% endif %}
+</div>
