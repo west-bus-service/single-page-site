@@ -1,0 +1,53 @@
+name: Validate GTFS
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["west_gtfs.zip"]
+  pull_request:
+    paths: ["west_gtfs.zip"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  VALIDATOR_VERSION: 8.0.1
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Download validator
+        run: |
+          curl -fsSL -o validator.jar \
+            "https://github.com/MobilityData/gtfs-validator/releases/download/v${VALIDATOR_VERSION}/gtfs-validator-${VALIDATOR_VERSION}-cli.jar"
+      - name: Run validator
+        run: java -jar validator.jar -i west_gtfs.zip -o out
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gtfs-validation-report
+          path: out
+      - name: Summarize notices
+        run: |
+          {
+            echo "## GTFS validation"
+            echo
+            echo "| Severity | Code | Count |"
+            echo "| --- | --- | --- |"
+            jq -r '.notices[] | "| \(.severity) | \(.code) | \(.totalNotices) |"' out/report.json
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Fail on errors
+        run: |
+          errors=$(jq '[.notices[] | select(.severity == "ERROR") | .totalNotices] | add // 0' out/report.json)
+          echo "Errors: $errors"
+          test "$errors" -eq 0

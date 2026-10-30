@@ -1,0 +1,328 @@
+@page {
+  size: 11in 8.5in;
+  margin: 0;
+}
+
+:root {
+  --red: #b00000;
+  --navy: #14285f;
+  --ink: #1b1b1b;
+  --muted: #4a4a4a;
+  --line: #c9bfa6;
+  --paper: #fffdf8;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+html,
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font: 7.4pt/1.28 "Liberation Sans", Arial, Helvetica, sans-serif;
+}
+
+/* One printed side, split into three equal panels */
+.sheet {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 11in;
+  height: 8.5in;
+  overflow: hidden;
+  break-after: page;
+  background: var(--paper);
+}
+
+.sheet:last-child {
+  break-after: auto;
+}
+
+.panel {
+  padding: 0.3in 0.28in;
+  overflow: hidden;
+}
+
+h2 {
+  margin: 0.08in 0 0.04in;
+  color: var(--red);
+  font-size: 10.5pt;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+h2:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin: 0 0 0.05in;
+}
+
+.center {
+  text-align: center;
+}
+
+.small {
+  font-size: 6.6pt;
+}
+
+.lede {
+  margin: 0 0 0.03in;
+  color: var(--navy);
+  font-weight: bold;
+  text-align: center;
+}
+
+.info {
+  margin-bottom: 0.045in;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.info strong {
+  color: var(--navy);
+}
+
+.bullets {
+  margin: 0.04in 0;
+  padding-left: 1.1em;
+}
+
+.funded {
+  margin-top: 0.06in;
+  color: var(--navy);
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Route cards and timetables */
+.route {
+  margin: 0.05in 0 0.06in;
+}
+
+.route-name {
+  margin: 0;
+  padding: 0.02in 0.06in;
+  border-radius: 3px 3px 0 0;
+  background: var(--route);
+  color: var(--route-text);
+  font-size: 8.6pt;
+}
+
+.route-meta {
+  margin: 0.02in 0 0.03in;
+  color: var(--muted);
+  font-size: 6.6pt;
+}
+
+.route-map {
+  height: 1in;
+  margin-bottom: 0.03in;
+  border: 0.5pt solid var(--line);
+}
+
+.tt {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 6.7pt;
+  line-height: 1.15;
+}
+
+.tt th,
+.tt td {
+  padding: 0.012in 0.03in;
+  border-bottom: 0.5pt solid var(--line);
+  vertical-align: top;
+}
+
+.tt thead th {
+  border-bottom: 1pt solid var(--route);
+  color: var(--navy);
+  font-size: 6.2pt;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.tt tbody th {
+  font-weight: normal;
+  text-align: left;
+}
+
+.tt .tt-town {
+  text-align: left;
+}
+
+.tt-stop {
+  display: block;
+  color: var(--muted);
+  font-size: 6pt;
+}
+
+.tt .tt-time {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.tt .tt-fare {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.tt thead tr + tr .tt-fare {
+  width: 0.31in;
+}
+
+.tt thead .tt-fare,
+.tt .tt-period {
+  white-space: normal;
+  text-align: center;
+}
+
+.tt-fares tbody td:nth-last-child(-n + 2) {
+  font-weight: bold;
+}
+
+.flag {
+  width: 9px;
+  height: 7px;
+  vertical-align: baseline;
+}
+
+.fares {
+  margin: 0.03in 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend,
+.note {
+  margin-bottom: 0.035in;
+  font-size: 6.6pt;
+}
+
+.reservations {
+  margin: 0.02in 0 0.08in;
+  color: var(--red);
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Back panel */
+.attribution {
+  margin: 0.08in 0 0;
+  color: var(--muted);
+  font-size: 5.4pt;
+  text-align: center;
+}
+
+.towns {
+  text-align: center;
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.03in 0.1in;
+  margin: 0.04in 0 0;
+}
+
+.contact dt {
+  color: var(--navy);
+  font-weight: bold;
+}
+
+.contact dd {
+  margin: 0;
+}
+
+/* Cover */
+.cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-left: 0.75pt dashed transparent;
+}
+
+.logo {
+  width: 2.3in;
+  height: auto;
+}
+
+.subtitle {
+  margin: 0.02in 0 0.08in;
+  color: var(--navy);
+  font-size: 11pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.phone {
+  margin: 0.08in 0 0.02in;
+  color: var(--red);
+  font-size: 20pt;
+  font-weight: bold;
+}
+
+.web {
+  color: var(--navy);
+  font-size: 9pt;
+}
+
+.tag {
+  margin-top: 0.04in;
+  color: var(--navy);
+  font-size: 11pt;
+}
+
+.sub {
+  font-size: 8pt;
+}
+
+.cta {
+  color: var(--red);
+  font-size: 9pt;
+  font-weight: bold;
+}
+
+.small-heading {
+  margin: 0.02in 0;
+  color: var(--muted);
+  font-size: 7pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.connections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.05in 0.1in;
+  width: 100%;
+  font-size: 6.6pt;
+}
+
+.connections .small-heading {
+  grid-column: 1 / -1;
+}
+
+.updated {
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 6.4pt;
+}

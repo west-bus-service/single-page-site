@@ -1,0 +1,243 @@
+---
+permalink: /newhomepage/
+---
+{%- assign wcc = gtfs.routes | where: "id", "WCC" | first -%}
+{%- assign ells = gtfs.routes | where: "id", "ELLS" | first -%}
+{%- assign mach = gtfs.routes | where: "id", "MACH" | first -%}
+{%- assign week = gtfs.routes | where: "id", "WEEK" | first -%}
+{%- assign lbc = gtfs.routes | where: "id", "LBC" | first -%}
+{%- assign schl = gtfs.routes | where: "id", "SCHL" | first -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="West Bus Service located in Downeast Maine offers local bus service from Calais to Bangor. Serving Downeast Maine, the Coastal Connection, Calais, Machias, Ellsworth, Bangor and points in between.">
+<title>WEST BUS SERVICE</title>
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#14285f">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.6.0/maplibre-gl.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="top" class="page">
+
+  <section class="hero">
+    <img class="hero-img" src="../westcoach.JPG" alt="West's Coastal Connection coach" width="900" height="384">
+    {% if cancellation.size > 5 %}
+    <div class="alert" role="alert">{{ cancellation }}<time class="alert-time" datetime="{{ cancellationUpdated.iso }}">Posted {{ cancellationUpdated.label }}</time></div>
+    {% endif %}
+    <p class="hero-phone"><a href="tel:+18005962823">1-800-596-2823</a></p>
+    <p class="hero-tag">Serving Downeast Maine<br><strong>7 DAYS A WEEK</strong></p>
+    <p class="hero-sub">The Coastal Connection, Calais, Machias, Ellsworth, Bangor and points in between</p>
+    <p class="hero-cta">YOU CAN GET THERE FROM HERE!</p>
+
+    <div class="connections">
+      <h2 class="small-heading">Connecting with</h2>
+      <div class="connection">
+        <h3><a href="http://www.flybangor.com/">Bangor Airport</a></h3>
+        <p>287 Godfrey Boulevard<br>Bangor, ME 04401<br>
+          Tel: <a href="tel:+12079924600">207-992-4600</a><br>
+          Fax: 207-945-3607<br>
+          Toll free: <a href="tel:+18663592264">1-866-359-2264</a></p>
+      </div>
+      <div class="connection">
+        <h3><a href="https://maps.google.com/?q=1039+Union+St,+Bangor,+ME">Concord Trailways</a></h3>
+        <p>1039 Union St, Bangor, ME<br>
+          <a href="tel:+18006393317">1-800-639-3317</a><br>
+          <a href="tel:+12079454000">(207) 945-4000</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="communities">
+    <h2>Communities We Serve</h2>
+    <ul class="towns">
+      <li><a href="https://en.wikipedia.org/wiki/Calais,_Maine">Calais</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Perry,_Maine">Perry</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Pembroke,_Maine">Pembroke</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Dennysville,_Maine">Dennysville</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Whiting,_Maine">Whiting</a></li>
+      <li><a href="https://www.visitlubecmaine.com/">Lubec</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/East_Machias,_Maine">East Machias</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Machias,_Maine">Machias</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Jonesboro,_Maine">Jonesboro</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Jonesport,_Maine">Jonesport</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Beals,_Maine">Beals</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Addison,_Maine">Addison</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Cherryfield,_Maine">Cherryfield</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Columbia,_Maine">Columbia</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Columbia_Falls,_Maine">Columbia Falls</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Harrington,_Maine">Harrington</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Deblois,_Maine">Deblois</a> <small>(seasonal)</small></li>
+      <li>Township 18 <small>(seasonal)</small></li>
+      <li>Township 19 <small>(seasonal)</small></li>
+      <li><a href="https://en.wikipedia.org/wiki/Centerville,_Maine">Centerville</a> <small>(seasonal)</small></li>
+      <li><a href="https://en.wikipedia.org/wiki/Milbridge,_Maine">Milbridge</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Steuben,_Maine">Steuben</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Gouldsboro,_Maine">Gouldsboro</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Winter_Harbor,_Maine">Winter Harbor</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Sullivan,_Maine">Sullivan</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Hancock,_Maine">Hancock</a></li>
+      <li><a href="https://ellsworthme.com/">Ellsworth</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Lucerne-in-Maine">Lucerne</a></li>
+      <li><a href="https://www.holdenmaine.com/">Holden</a></li>
+      <li><a href="https://www.bangormaine.gov/">Bangor</a></li>
+    </ul>
+    <p>West's does other provider services in these areas such as Medicaid, school and employee shuttles and more.
+      Routes may be open to public on space available busses.</p>
+    <p class="call">Call <a href="tel:+18005962823">1-800-596-2823</a></p>
+  </section>
+
+  <section id="coastal-connection">
+    <h2>West's Coastal Connection</h2>
+    <p class="lede">CALAIS &bull; MACHIAS &bull; ELLSWORTH &bull; BANGOR<br>
+      Daily Public Bus Service, <strong>7 DAYS A WEEK</strong><br>
+      Calais to Bangor and points in between</p>
+
+    <p>Stops provided as a public service by merchants. For information:
+      <a href="tel:+18005962823">1-800-596-2823</a> or <a href="tel:+12075462823">207-546-2823</a></p>
+
+    <h3 class="section-sub">Schedule of Service</h3>
+    {% render "timetable.liquid", route: wcc, periods: gtfs.periods %}
+
+    <div class="notes">
+      <p>*Fares payable to driver. Ask for rates between towns. Additional stops in Bangor-$5.00</p>
+      <p>Ticket purchase on bus is with correct change only and US Currency. Drivers are not allowed to carry cash.</p>
+      <p>Bus will make flag stops anywhere along the route where it is safe and convenient to do so.
+        (To utilize a flag stop, please make yourself visible near the curb. Place your luggage beside the road and wave the bus to a stop.)</p>
+      <p>ADA equipped bus available with 1 day notice.</p>
+      <p><strong>New Flag Stop Bangor International Airport</strong></p>
+      <p>Operated by West's Transportation, Inc., P.O. Box 82, Milbridge, ME 04658</p>
+    </div>
+
+    <div class="spanish" lang="es">
+      <h3>La Conexi&oacute;n Costera de West</h3>
+      <p><strong>CALAIS &bull; MACHIAS &bull; ELLSWORTH &bull; BANGOR</strong><br>
+        Servicio p&uacute;blico de autob&uacute;s diario, de Calais a Bangor y puntos intermedios.
+        Consulte el horario arriba.</p>
+      <p>Paradas proporcionadas como servicio p&uacute;blico por comerciantes. Para informaci&oacute;n:
+        <a href="tel:+18005962823">1-800-596-2823</a> o <a href="tel:+12075462823">207-546-2823</a></p>
+      <p>El autob&uacute;s har&aacute; paradas a pedido en cualquier punto de la ruta donde sea seguro y conveniente.
+        (Para usar una parada a pedido, h&aacute;gase visible cerca de la acera, coloque su equipaje al lado del camino y haga se&ntilde;as al autob&uacute;s para que se detenga.)</p>
+      <p>Autob&uacute;s equipado seg&uacute;n la ADA disponible con 1 d&iacute;a de aviso.</p>
+      <p><strong>Nueva parada a pedido en el Aeropuerto Internacional de Bangor</strong></p>
+      <p>Concord Trailways: <a href="tel:+18006393317">1-800-639-3317</a> o <a href="tel:+12079454000">207-945-4000</a></p>
+      <p>Operado por West's Transportation, Inc., P.O. Box 82, Milbridge, ME 04658</p>
+    </div>
+  </section>
+
+  <section id="bus-service">
+    <h2>West's Bus Service</h2>
+    <p class="lede">Schedule is subject to change without notice, CALL prior to travel.
+      Read schedule down then up for round trips.</p>
+    {% render "timetable.liquid", route: ells, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: mach, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: week, periods: gtfs.periods %}
+    <p class="reservations">Reservations Required</p>
+  </section>
+
+  <section id="lubec">
+    <h2>First Wednesday of each Month</h2>
+    {% render "timetable.liquid", route: lbc, periods: gtfs.periods %}
+    <p class="call">Call <a href="tel:+18005962823">1-800-596-2823</a></p>
+  </section>
+
+  <section id="school">
+    <h2>Monday thru Friday, School Season Only</h2>
+    {% render "timetable.liquid", route: schl, periods: gtfs.periods %}
+    <p class="reservations">Reservations Required</p>
+  </section>
+
+  <section id="general">
+    <h2>General Information</h2>
+    <div class="info">
+      <p><strong>SCHEDULES</strong> - Every effort will be make to operate according to published schedules. Circumstances sometimes develop beyond our control and accordingly West's Coastal Connection cannot hold itself responsible for errors in timetables. Inconvenience or damage resulting from delayed coaches. Connections are not guaranteed and schedules are subject to change without notice.</p>
+      <p><strong>HOLIDAYS</strong> - To afford our drivers to spend time with their family, the buses will NOT run on Thanksgiving and Christmas.</p>
+      <p><strong>SMOKING</strong> - Will not be allowed on any of West's Buses.</p>
+      <p><strong>OBJECTIONABLE PERSONS</strong> - West's Coastal Connection reserves the right to refuse transportation to any person under the influence on intoxicating beverages or drugs or who is unable to take care of them selves or to any person whose conduct is such or likely to be such, as to make then objectionable to other passengers. Passengers not wearing shoes or other protective footwear will be denied transportation.</p>
+      <p><strong>CHILDREN'S FARES</strong> - Children who have not reached their fifth (5th) birthday must be accompanied by an adult paying passenger. One child under five (5) years of age will be carried free of charge. Additional children under five (5) years of age will be required to pay the applicable half fare. Children who have reached their fifth (5th) birthday but have not reached their twelfth (12th) birthday will be charged one half (&frac12;) of the adult fare.</p>
+      <p><strong>ANIMALS</strong> - West's Transportation clients will be permitted to bring their service animal on a trip if the animal provides a service for the client.</p>
+      <p><strong>COMPLAINT POLICY</strong> - If you have a complaint, you may write to: West's Transportation, Inc. PO BOX 82, Milbridge, Maine 04658 or call <a href="tel:+18005962823">800-596-2823</a>. Your complaint will be investigated and responded to within 10 business days. A record of all complaints and their resolution is kept on file in the main office. This policy is meant to cover <a href="https://www.transit.dot.gov/regulations-and-guidance/civil-rights-ada/title-vi-civil-rights-act-1964">Title VI</a> American's With Disabilities Act; general service (including denial of service) and unfair competition complaints.
+        <a class="button" href="../Transportation-Complaint-Form-2024.pdf">Complaint Form (PDF)</a></p>
+      <p><strong>TITLE VI POLICY</strong> - West's Transportation, Inc. complies with the <a href="https://www.justice.gov/crt/fcs/TitleVI">Title VI Civil Rights Act of 1964</a>. No persons shall on the grounds of race, color, religion, sex, sexual orientation, age, national origin or ancestry, physical or mental handicap, or other basis prohibited by law, be discriminated against for any reason.</p>
+      <ul class="bullets">
+        <li>Wheelchair Bus available with 1 (one) day notice.</li>
+        <li>Ticket Agents and Bus Stops are: Concord Trailways - Bangor</li>
+        <li>Ticket purchase on bus is with correct change only and US Currency. Drivers are not allowed to carry cash.</li>
+        <li>No Food or Drink on bus.</li>
+        <li>Baggage Limit - two bags</li>
+        <li>West's will not be responsible for lost or stolen articles.</li>
+        <li>Bicycles - if space is available there is a $7.00 fee</li>
+        <li>Freight service available</li>
+      </ul>
+      <p class="funded">Funded in Part by MDOT and FTA</p>
+    </div>
+
+    <div class="spanish" lang="es">
+      <h3>Informaci&oacute;n en espa&ntilde;ol</h3>
+      <p><strong>HORARIOS</strong> - Todos los esfuerzos se hacen para operar de acuerdo a los horarios publicados. Las circunstancias a veces desarrollan fuera de nuestro control y por lo tanto la conexión costera del Occidente no pueden sostenerse responsable de los errores en los horarios. Inconvenientes o daños resultantes del retraso entrenadores. Las conexiones no están garantizados y los horarios están sujetos a cambios sin previo aviso.</p>
+      <p><strong>D&Iacute;AS FESTIVOS</strong> - Para que nuestros conductores puedan pasar tiempo con su familia, los autobuses NO funcionar&aacute;n el D&iacute;a de Acci&oacute;n de Gracias ni el d&iacute;a de Navidad.</p>
+      <p><strong>FUMAR</strong> - No se le permitirá a cualquiera de Autobuses de Occidente.</p>
+      <p><strong>PERSONAS objetable que</strong> - Coastal Connection de West se reserva el derecho a negarse a transportar a cualquier persona bajo la influencia de bebidas embriagantes o drogas o que es incapaz de cuidar de ellos mismos o para cualquier persona cuya conducta es tal, o que pueda ser tal, como para hacer entonces ofensiva con otros pasajeros. Los pasajeros no llevaban zapatos u otro calzado de protección se les negará el transporte.</p>
+      <p><strong>Tarifas para Niños</strong> - Los niños que no han alcanzado su quinta (5) años deben estar acompañados por un pasajero adulto que paga. Un menor de cinco (5) años de edad se realizará de forma gratuita. Más niños menores de cinco (5) años de edad serán obligados a pagar la mitad de la tarifa aplicable. Los niños que han llegado a su quinta (5) años, pero no han llegado a su duodécima (12) años de edad se les cobrará la mitad (&frac12;) de la tarifa de adulto.</p>
+      <p><strong>ANIMALES</strong> - Se permitirán los clientes de transporte de West traer su animal de servicio en un viaje si el animal ofrece un servicio para el cliente.</p>
+      <p><strong>POLÍTICA DE QUEJA</strong> - Si usted tiene una queja, puede escribir a: West's Transportation, Inc. PO BOX 82, Milbridge, Maine 04658 o llame al 800-596-2823. Su queja será investigada y atendidos en un lapso 10 días hábiles. Un registro de todas las reclamaciones y su resolución se mantiene en los archivos de la oficina principal. Esta política está destinada a cubrir el Título VI American with Disabilities Act, el servicio en general (incluyendo la denegación de servicio) e injusta quejas de competencia.</p>
+      <p><strong>POLÍTICA TÍTULO VI</strong> - West Transportation, Inc. cumple con la Ley Título VI Derechos Civiles de 1964. Ninguna persona por motivos de raza, color, religión, sexo, orientación sexual, edad, origen nacional o ascendencia, discapacidad física o mental, o otra razón prohibida por la ley, ser objeto de discriminación por cualquier motivo.</p>
+      <ul class="bullets">
+        <li>Bus de ruedas disponibles con preaviso de 1 (un) día.</li>
+        <li>Agentes de entradas y paradas de autobús son: Concord Trailways - Bangor</li>
+        <li>Compra de entradas en el bus es el cambio sea correcta, y EE.UU. moneda. Los conductores no están autorizados a llevar dinero en efectivo.</li>
+        <li>No hay comida o bebidas en el autobús.</li>
+        <li>Equipaje límite de dos bolsas</li>
+        <li>West's no será responsable de los artículos perdidos o robados.</li>
+        <li>Bicicletas - si hay espacio disponible hay una tarifa $7,00</li>
+        <li>El servicio de carga disponible</li>
+      </ul>
+      <p class="funded">Financiado en parte por el MDOT y FTA</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Information</h2>
+    <dl class="contact">
+      <dt>E-Mail</dt><dd><a href="mailto:westbus@ymail.com">westbus@ymail.com</a></dd>
+      <dt>Telephone</dt><dd>Toll free <a href="tel:+18005962823">1-800-596-2823</a><br><a href="tel:+12075462823">207-546-2823</a></dd>
+      <dt>Mail</dt><dd>West Transportation, Inc.<br>P.O. Box 82<br>Milbridge, ME 04658</dd>
+    </dl>
+  </section>
+
+  <footer class="footer">
+    <a href="http://www.state.me.us/"><img src="../ME_1a.gif" alt="State of Maine" width="50" height="76"></a>
+    <p><a href="../brochure.pdf">Printable schedule (PDF)</a> | <a href="../brochure-es.pdf" lang="es">Horario para imprimir (PDF)</a></p>
+    <p><a href="../west_gtfs.zip">Download schedule data (GTFS)</a></p>
+  </footer>
+</main>
+
+<script>
+  // Hide fares and trip dates that have already passed
+  (function () {
+    var today = new Date();
+    var ymd = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+    document.querySelectorAll("[data-period-end]").forEach(function (el) {
+      if (+el.dataset.periodEnd < ymd) el.remove();
+    });
+    document.querySelectorAll(".next-dates").forEach(function (list) {
+      var shown = 0;
+      list.querySelectorAll("[data-date]").forEach(function (el) {
+        var upcoming = +el.dataset.date.replace(/-/g, "") >= ymd;
+        el.hidden = !upcoming || shown >= 3;
+        if (upcoming) shown++;
+      });
+    });
+  })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.6.0/maplibre-gl.min.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+---
+pagination:
+  data: brochure.langs
+  size: 1
+  alias: lang
+permalink: "brochure/{{ lang }}.html"
+eleventyExcludeFromCollections: true
+---
+{%- assign t = brochure[lang] -%}
+{%- assign wcc = gtfs.routes | where: "id", "WCC" | first -%}
+{%- assign ells = gtfs.routes | where: "id", "ELLS" | first -%}
+{%- assign mach = gtfs.routes | where: "id", "MACH" | first -%}
+{%- assign week = gtfs.routes | where: "id", "WEEK" | first -%}
+{%- assign lbc = gtfs.routes | where: "id", "LBC" | first -%}
+{%- assign schl = gtfs.routes | where: "id", "SCHL" | first -%}
+<!DOCTYPE html>
+<html lang="{{ t.lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>{{ t.title }} - {{ t.subtitle }}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.6.0/maplibre-gl.min.css">
+<link rel="stylesheet" href="brochure.css">
+</head>
+<body>
+
+<!-- Outside: inside flap, back, cover -->
+<div class="sheet">
+  <section class="panel">
+    <h2>{{ t.generalTitle }}</h2>
+    {% for item in t.general %}
+    <p class="info"><strong>{{ item[0] }}</strong> - {{ item[1] }}</p>
+    {% endfor %}
+    <p class="info">{{ t.complaintForm }}: westbusservice.com/Transportation-Complaint-Form-2024.pdf</p>
+    <ul class="bullets">
+      {% for b in t.bullets %}<li>{{ b }}</li>{% endfor %}
+    </ul>
+    <p class="funded">{{ t.funded }}</p>
+  </section>
+
+  <section class="panel">
+    <h2>{{ t.schoolTitle }}</h2>
+    {% render "brochure-timetable.liquid", route: schl, periods: gtfs.currentPeriods, t: t %}
+    {%- assign seasonStart = schl.serviceStartDate | gtfsDate: t.locale -%}
+    {%- assign seasonEnd = schl.serviceEndDate | gtfsDate: t.locale -%}
+    <p class="small">{{ t.season | replace: "{start}", seasonStart | replace: "{end}", seasonEnd }}</p>
+    <p class="reservations">{{ t.reservations }}</p>
+
+    <h2>{{ t.communitiesTitle }}</h2>
+    <p class="towns">{% for c in t.communities %}{{ c.name }}{% if c.seasonal %} ({{ t.seasonal }}){% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}</p>
+    <p class="small">{{ t.otherServices }}</p>
+    <h2>{{ t.contactTitle }}</h2>
+    <dl class="contact">
+      <dt>{{ t.telephone }}</dt><dd>{{ t.tollFree }} 1-800-596-2823<br>207-546-2823</dd>
+      <dt>{{ t.email }}</dt><dd>westbus@ymail.com</dd>
+      <dt>{{ t.mail }}</dt><dd>West's Transportation, Inc.<br>P.O. Box 82<br>Milbridge, ME 04658</dd>
+      <dt>Web</dt><dd>westbusservice.com</dd>
+    </dl>
+    <p class="attribution">{{ t.mapCredit }}: OpenFreeMap, &copy; OpenMapTiles, &copy; OpenStreetMap contributors</p>
+  </section>
+
+  <section class="panel cover">
+    <img class="logo" src="../newlogo.svg" alt="{{ t.title }}">
+    <p class="subtitle">{{ t.subtitle }}</p>
+    <img class="photo" src="../westcoach.JPG" alt="">
+    <p class="phone">1-800-596-2823</p>
+    <p class="web">westbusservice.com<br>westbus@ymail.com</p>
+    <p class="tag">{{ t.tag }}<br><strong>{{ t.days }}</strong></p>
+    <p class="sub">{{ t.sub }}</p>
+    <p class="cta">{{ t.cta }}</p>
+    <div class="connections">
+      <p class="small-heading">{{ t.connecting }}</p>
+      <div class="connection">
+        <strong>Bangor Airport</strong><br>287 Godfrey Boulevard, Bangor, ME 04401<br>
+        207-992-4600, {{ t.tollFree }} 1-866-359-2264
+      </div>
+      <div class="connection">
+        <strong>Concord Trailways</strong><br>1039 Union St, Bangor, ME<br>
+        1-800-639-3317, 207-945-4000
+      </div>
+    </div>
+    <p class="updated">{{ t.updated }} {{ gtfs.today | gtfsDate: t.locale }}<br>
+      {{ t.latest }}: westbusservice.com/{{ t.pdf }}<br>
+      {{ t.otherLanguage }}: westbusservice.com/{{ t.otherPdf }}</p>
+  </section>
+</div>
+
+<!-- Inside: three schedule panels -->
+<div class="sheet">
+  <section class="panel">
+    <h2>{{ t.wccTitle }}</h2>
+    <p class="lede">CALAIS &bull; MACHIAS &bull; ELLSWORTH &bull; BANGOR</p>
+    <p class="center">{{ t.wccLede }}</p>
+    <p class="center small">{{ t.merchants }} {{ t.forInfo }}: 1-800-596-2823 {{ t.or }} 207-546-2823</p>
+    {% render "brochure-timetable.liquid", route: wcc, periods: gtfs.currentPeriods, t: t, hideName: true %}
+    <p class="legend"><img class="flag" src="../flag2_red.gif" alt=""> {{ t.flagLegend }}</p>
+    {% for n in t.wccNotes %}<p class="note">{{ n }}</p>{% endfor %}
+    <p class="note"><strong>{{ t.airportFlag }}</strong></p>
+    <p class="note">Concord Trailways: 1-800-639-3317 {{ t.or }} 207-945-4000</p>
+    <p class="note">{{ t.operatedBy }}</p>
+  </section>
+
+  <section class="panel">
+    <h2>{{ t.busTitle }}</h2>
+    <p class="center small">{{ t.busLede }}</p>
+    {% render "brochure-timetable.liquid", route: ells, periods: gtfs.currentPeriods, t: t %}
+    {% render "brochure-timetable.liquid", route: week, periods: gtfs.currentPeriods, t: t %}
+    <p class="reservations">{{ t.reservations }}</p>
+  </section>
+
+  <section class="panel">
+    {% render "brochure-timetable.liquid", route: mach, periods: gtfs.currentPeriods, t: t %}
+    <p class="reservations">{{ t.reservations }}</p>
+
+    <h2>{{ t.lubecTitle }}</h2>
+    {% render "brochure-timetable.liquid", route: lbc, periods: gtfs.currentPeriods, t: t %}
+    {% if lbc.upcomingDateIds.size > 0 %}
+    <p class="small">{{ t.nextTrips }}: {% for d in lbc.upcomingDateIds limit: 6 %}{{ d | gtfsDate: t.locale, "short" }}{% unless forloop.last %}; {% endunless %}{% endfor %}</p>
+    {% endif %}
+    <p class="reservations">{{ t.call }} 1-800-596-2823</p>
+  </section>
+</div>
+
+<script type="application/json" id="network">{{ gtfs.geojson | json }}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.6.0/maplibre-gl.min.js"></script>
+<script src="map.js"></script>
+</body>
+</html>
