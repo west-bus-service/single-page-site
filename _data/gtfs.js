@@ -88,6 +88,23 @@ export default function () {
   const routeNetwork = new Map((feed.route_networks ?? []).map((r) => [r.route_id, r.network_id]));
   const products = new Map((feed.fare_products ?? []).map((p) => [p.fare_product_id, p]));
 
+  // Translations keyed "table|field|record_id|language"
+  const translations = new Map(
+    (feed.translations ?? []).map((t) => [`${t.table_name}|${t.field_name}|${t.record_id}|${t.language}`, t.translation]),
+  );
+  const languages = [...new Set((feed.translations ?? []).map((t) => t.language))].sort();
+
+  // Stop description per translated language; throws if one is missing
+  function stopL10n(stopId) {
+    return Object.fromEntries(
+      languages.map((lang) => {
+        const location = translations.get(`stops|stop_desc|${stopId}|${lang}`);
+        if (location === undefined) throw new Error(`Missing ${lang} stop_desc translation for ${stopId}`);
+        return [lang, { location }];
+      }),
+    );
+  }
+
   // Fare periods come from timeframes, ordered by the start of their service calendar
   const periods = (feed.timeframes ?? [])
     .map((t) => {
@@ -137,6 +154,7 @@ export default function () {
         stopId: st.stop_id,
         town: townOf(stop.stop_name),
         location: stop.stop_desc,
+        l10n: stopL10n(st.stop_id),
         flag: st.pickup_type === "3",
         out: timeAt(st),
         back: back ? timeAt(back) : "",

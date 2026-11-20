@@ -22,7 +22,7 @@
     <tbody>
       {% for row in route.rows %}
       <tr>
-        <th scope="row" class="tt-town">{% if row.flag %}<img class="flag" src="../flag.svg" alt=""> {% endif %}<strong>{{ row.town }}</strong><span class="tt-stop">{{ row.location }}</span></th>
+        <th scope="row" class="tt-town">{% if row.flag %}<img class="flag" src="../flag.svg" alt=""> {% endif %}<strong>{{ row.town }}</strong><span class="tt-stop">{{ row.l10n[t.lang].location | default: row.location }}</span></th>
         <td class="tt-time">{{ row.out }}</td>
         {% if route.backTown != "" %}<td class="tt-time">{{ row.back }}</td>{% endif %}
         {% if route.hasRowFares %}

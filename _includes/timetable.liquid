@@ -33,7 +33,7 @@
         {% for row in route.rows %}
         <tr>
           <th scope="row">{% if row.flag %}<img class="flag" src="../flag.svg" alt="{{ t.flagStop }}" width="20" height="16"> {% endif %}{{ row.town }}</th>
-          <td>{{ row.location }}</td>
+          <td>{{ row.l10n[t.lang].location | default: row.location }}</td>
           <td class="time">{{ row.out }}</td>
           {% if route.backLabel != "" %}<td class="time">{{ row.back }}</td>{% endif %}
           {% if route.hasRowFares %}
