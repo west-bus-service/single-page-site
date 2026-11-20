@@ -21,7 +21,7 @@ Wait a few minutes for the page to update. If this doesn't work, contact Max
 
 ## How to edit the schedule data (GTFS)
 
-The routes, stops, times and fares shown on [/newhomepage/](https://westbusservice.com/newhomepage/) come from `west_gtfs.zip`.
+The routes, stops, times and fares shown on [westbusservice.com](https://westbusservice.com/) come from `west_gtfs.zip`.
 
 1. Open the feed in the editor: [edit.gtfs.zone](https://edit.gtfs.zone/#load=https://raw.githubusercontent.com/west-bus-service/single-page-site/main/west_gtfs.zip)
 2. Make changes, then export the feed as a ZIP

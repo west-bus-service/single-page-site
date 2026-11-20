@@ -8,7 +8,7 @@
   // Rasterizes the flag SVG at 2x for map.addImage
   const flagImage = (async () => {
     const img = new Image();
-    img.src = "../flag.svg";
+    img.src = "flag.svg";
     await img.decode();
     const canvas = document.createElement("canvas");
     canvas.width = 40;

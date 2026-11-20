@@ -1,5 +1,5 @@
 ---
-permalink: /newhomepage/
+permalink: /
 ---
 {%- assign wcc = gtfs.routes | where: "id", "WCC" | first -%}
 {%- assign ells = gtfs.routes | where: "id", "ELLS" | first -%}
@@ -12,13 +12,12 @@ permalink: /newhomepage/
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
 <meta name="description" content="West Bus Service located in Downeast Maine offers local bus service from Calais to Bangor. Serving Downeast Maine, the Coastal Connection, Calais, Machias, Ellsworth, Bangor and points in between.">
 <title>WEST BUS SERVICE</title>
-<link rel="icon" href="../favicon.ico" sizes="32x32">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="manifest" href="../site.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#14285f">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/5.6.0/maplibre-gl.min.css">
 <link rel="stylesheet" href="style.css">
@@ -28,7 +27,7 @@ permalink: /newhomepage/
 <main id="top" class="page">
 
   <section class="hero">
-    <img class="hero-img" src="../westcoach.JPG" alt="West's Coastal Connection coach" width="900" height="384">
+    <img class="hero-img" src="westcoach.JPG" alt="West's Coastal Connection coach" width="900" height="384">
     {% if cancellation.size > 5 %}
     <div class="alert" role="alert">{{ cancellation }}<time class="alert-time" datetime="{{ cancellationUpdated.iso }}">Posted {{ cancellationUpdated.label }}</time></div>
     {% endif %}
@@ -167,7 +166,7 @@ permalink: /newhomepage/
       <p><strong>CHILDREN'S FARES</strong> - Children who have not reached their fifth (5th) birthday must be accompanied by an adult paying passenger. One child under five (5) years of age will be carried free of charge. Additional children under five (5) years of age will be required to pay the applicable half fare. Children who have reached their fifth (5th) birthday but have not reached their twelfth (12th) birthday will be charged one half (&frac12;) of the adult fare.</p>
       <p><strong>ANIMALS</strong> - West's Transportation clients will be permitted to bring their service animal on a trip if the animal provides a service for the client.</p>
       <p><strong>COMPLAINT POLICY</strong> - If you have a complaint, you may write to: West's Transportation, Inc. PO BOX 82, Milbridge, Maine 04658 or call <a href="tel:+18005962823">800-596-2823</a>. Your complaint will be investigated and responded to within 10 business days. A record of all complaints and their resolution is kept on file in the main office. This policy is meant to cover <a href="https://www.transit.dot.gov/regulations-and-guidance/civil-rights-ada/title-vi-civil-rights-act-1964">Title VI</a> American's With Disabilities Act; general service (including denial of service) and unfair competition complaints.
-        <a class="button" href="../Transportation-Complaint-Form-2024.pdf">Complaint Form (PDF)</a></p>
+        <a class="button" href="Transportation-Complaint-Form-2024.pdf">Complaint Form (PDF)</a></p>
       <p><strong>TITLE VI POLICY</strong> - West's Transportation, Inc. complies with the <a href="https://www.justice.gov/crt/fcs/TitleVI">Title VI Civil Rights Act of 1964</a>. No persons shall on the grounds of race, color, religion, sex, sexual orientation, age, national origin or ancestry, physical or mental handicap, or other basis prohibited by law, be discriminated against for any reason.</p>
       <ul class="bullets">
         <li>Wheelchair Bus available with 1 (one) day notice.</li>
@@ -216,9 +215,9 @@ permalink: /newhomepage/
   </section>
 
   <footer class="footer">
-    <a href="http://www.state.me.us/"><img src="../ME_1a.gif" alt="State of Maine" width="50" height="76"></a>
-    <p><a href="../brochure.pdf">Printable schedule (PDF)</a> | <a href="../brochure-es.pdf" lang="es">Horario para imprimir (PDF)</a></p>
-    <p><a href="../west_gtfs.zip">Download schedule data (GTFS)</a></p>
+    <a href="http://www.state.me.us/"><img src="ME_1a.gif" alt="State of Maine" width="50" height="76"></a>
+    <p><a href="brochure.pdf">Printable schedule (PDF)</a> | <a href="brochure-es.pdf" lang="es">Horario para imprimir (PDF)</a></p>
+    <p><a href="west_gtfs.zip">Download schedule data (GTFS)</a></p>
   </footer>
 </main>
 

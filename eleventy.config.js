@@ -12,11 +12,9 @@ export default function (eleventyConfig) {
     "newlogo.svg",
     "site.webmanifest",
     "*.pdf",
-    "index_files",
-    "route.geojson",
     "west_gtfs.zip",
-    "newhomepage/style.css",
-    "newhomepage/map.js",
+    "style.css",
+    "map.js",
     "brochure/brochure.css",
     "brochure/map.js",
   ]) {

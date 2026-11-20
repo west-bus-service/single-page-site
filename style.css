@@ -27,7 +27,7 @@ body {
   color: var(--ink);
   font: 18px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--backdrop);
-  background-image: linear-gradient(rgba(239, 233, 218, 0.82), rgba(239, 233, 218, 0.82)), url("../stage3.gif");
+  background-image: linear-gradient(rgba(239, 233, 218, 0.82), rgba(239, 233, 218, 0.82)), url("stage3.gif");
   background-attachment: fixed;
 }
 
