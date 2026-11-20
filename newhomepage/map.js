@@ -5,6 +5,19 @@
 
   const network = fetch("network.geojson").then((r) => r.json());
 
+  // Rasterizes the flag SVG at 2x for map.addImage
+  const flagImage = (async () => {
+    const img = new Image();
+    img.src = "../flag.svg";
+    await img.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = 40;
+    canvas.height = 32;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return ctx.getImageData(0, 0, canvas.width, canvas.height);
+  })();
+
   function popupContent(stop) {
     const root = document.createElement("div");
     root.className = "popup";
@@ -46,7 +59,13 @@
     map.addControl(new maplibregl.FullscreenControl(), "top-right");
 
     map.on("load", async () => {
-      const all = await network;
+      const [all, flag] = await Promise.all([network, flagImage]);
+      // Drops the basemap's own labels so only the route's stops are named
+      for (const layer of map.getStyle().layers) {
+        if (layer.type === "symbol") map.removeLayer(layer.id);
+      }
+      map.addImage("flag", flag, { pixelRatio: 2 });
+
       // Only this route's line and the stops it serves
       const features = all.features.filter((f) => f.properties[`on_${route}`]);
       const stopsById = new Map();
@@ -57,6 +76,7 @@
 
       const isRoute = ["==", ["get", "kind"], "route"];
       const isStop = ["==", ["get", "kind"], "stop"];
+      const isFlag = ["to-boolean", ["get", `flag_${route}`]];
       map.addLayer({
         id: "routes-casing",
         type: "line",
@@ -77,7 +97,7 @@
         id: "stops",
         type: "circle",
         source: "network",
-        filter: isStop,
+        filter: ["all", isStop, ["!", isFlag]],
         paint: {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 7, 4.5, 12, 8],
           "circle-color": "#ffffff",
@@ -85,21 +105,38 @@
           "circle-stroke-width": 3,
         },
       });
+      // Flag stops: icon only, pole base sits on the stop; placed before labels so labels avoid the icon
+      map.addLayer({
+        id: "flag-stops",
+        type: "symbol",
+        source: "network",
+        filter: ["all", isStop, isFlag],
+        layout: {
+          "icon-image": "flag",
+          "icon-anchor": "bottom-left",
+          "icon-offset": [-4, 0],
+          "icon-allow-overlap": true,
+        },
+      });
       map.addLayer({
         id: "stop-labels",
         type: "symbol",
         source: "network",
-        filter: isStop,
-        minzoom: 8,
+        filter: ["all", isStop, ["!", isFlag]],
         layout: {
           "text-field": ["get", "name"],
           "text-font": ["Noto Sans Bold"],
           "text-size": 13,
-          "text-offset": [0, 1.1],
-          "text-anchor": "top",
-          "text-optional": true,
+          "text-variable-anchor": ["top", "bottom", "left", "right", "top-left", "top-right", "bottom-left", "bottom-right"],
+          "text-radial-offset": 0.8,
+          "text-justify": "auto",
+          "text-padding": 1,
         },
-        paint: { "text-color": "#14285f", "text-halo-color": "#ffffff", "text-halo-width": 2 },
+        paint: {
+          "text-color": "#14285f",
+          "text-halo-color": "#ffffff",
+          "text-halo-width": 2,
+        },
       });
 
       const bounds = new maplibregl.LngLatBounds();
@@ -109,15 +146,16 @@
       }
       if (!bounds.isEmpty()) map.fitBounds(bounds, { padding: 30, duration: 0 });
 
-      map.on("click", "stops", (e) => {
+      const clickable = ["stops", "flag-stops"];
+      map.on("click", clickable, (e) => {
         const stop = stopsById.get(e.features[0].properties.id);
         new maplibregl.Popup({ maxWidth: "300px" })
           .setLngLat(e.features[0].geometry.coordinates)
           .setDOMContent(popupContent(stop))
           .addTo(map);
       });
-      map.on("mouseenter", "stops", () => (map.getCanvas().style.cursor = "pointer"));
-      map.on("mouseleave", "stops", () => (map.getCanvas().style.cursor = ""));
+      map.on("mouseenter", clickable, () => (map.getCanvas().style.cursor = "pointer"));
+      map.on("mouseleave", clickable, () => (map.getCanvas().style.cursor = ""));
     });
   }
 

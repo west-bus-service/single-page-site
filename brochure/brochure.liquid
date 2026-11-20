@@ -93,7 +93,7 @@ eleventyExcludeFromCollections: true
     <p class="center">{{ t.wccLede }}</p>
     <p class="center small">{{ t.merchants }} {{ t.forInfo }}: 1-800-596-2823 {{ t.or }} 207-546-2823</p>
     {% render "brochure-timetable.liquid", route: wcc, periods: gtfs.currentPeriods, t: t, hideName: true %}
-    <p class="legend"><img class="flag" src="../flag2_red.gif" alt=""> {{ t.flagLegend }}</p>
+    <p class="legend"><img class="flag" src="../flag.svg" alt=""> {{ t.flagLegend }}</p>
     {% for n in t.wccNotes %}<p class="note">{{ n }}</p>{% endfor %}
     <p class="note"><strong>{{ t.airportFlag }}</strong></p>
     <p class="note">Concord Trailways: 1-800-639-3317 {{ t.or }} 207-945-4000</p>

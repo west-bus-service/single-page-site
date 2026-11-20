@@ -8,6 +8,7 @@ export default function (eleventyConfig) {
     "*.png",
     "favicon.ico",
     "favicon.svg",
+    "flag.svg",
     "newlogo.svg",
     "site.webmanifest",
     "*.pdf",

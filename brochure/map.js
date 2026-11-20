@@ -3,6 +3,19 @@
   const network = JSON.parse(document.getElementById("network").textContent);
   const containers = [...document.querySelectorAll(".route-map[data-route]")];
 
+  // Rasterizes the flag SVG at 4x to match the map pixelRatio
+  const flagImage = (async () => {
+    const img = new Image();
+    img.src = "../flag.svg";
+    await img.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = 80;
+    canvas.height = 64;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    return ctx.getImageData(0, 0, canvas.width, canvas.height);
+  })();
+
   function initMap(container) {
     const route = container.dataset.route;
     const color = getComputedStyle(container).getPropertyValue("--route").trim();
@@ -35,14 +48,16 @@
     });
 
     return new Promise((resolve) => {
-      map.on("load", () => {
+      map.on("load", async () => {
         // Drops the basemap's own labels so only the route's stops are named
         for (const layer of map.getStyle().layers) {
           if (layer.type === "symbol") map.removeLayer(layer.id);
         }
+        map.addImage("flag", await flagImage, { pixelRatio: 4 });
         map.addSource("network", { type: "geojson", data: { type: "FeatureCollection", features } });
         const isRoute = ["==", ["get", "kind"], "route"];
         const isStop = ["==", ["get", "kind"], "stop"];
+        const isFlag = ["to-boolean", ["get", `flag_${route}`]];
         map.addLayer({
           id: "routes-casing",
           type: "line",
@@ -63,19 +78,34 @@
           id: "stops",
           type: "circle",
           source: "network",
-          filter: isStop,
+          filter: ["all", isStop, ["!", isFlag]],
           paint: { "circle-radius": 2.4, "circle-color": "#ffffff", "circle-stroke-color": color, "circle-stroke-width": 1.4 },
+        });
+        // Flag stops: icon only, pole base sits on the stop
+        map.addLayer({
+          id: "flag-stops",
+          type: "symbol",
+          source: "network",
+          filter: ["all", isStop, isFlag],
+          layout: {
+            "icon-image": "flag",
+            "icon-size": 0.5,
+            "icon-anchor": "bottom-left",
+            "icon-offset": [-4, 0],
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+          },
         });
         map.addLayer({
           id: "stop-labels",
           type: "symbol",
           source: "network",
-          filter: isStop,
+          filter: ["all", isStop, ["!", isFlag]],
           layout: {
             "text-field": ["get", "town"],
             "text-font": ["Noto Sans Regular"],
             "text-size": 7,
-            "text-variable-anchor": ["left", "right", "top", "bottom"],
+            "text-variable-anchor": ["left", "right", "top", "bottom", "top-left", "top-right", "bottom-left", "bottom-right"],
             "text-radial-offset": 0.5,
             "text-justify": "auto",
             "text-padding": 0,

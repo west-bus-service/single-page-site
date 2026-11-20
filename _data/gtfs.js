@@ -219,6 +219,7 @@ export default function () {
         services,
         // Flat flags so map filters can match routes without array properties
         ...Object.fromEntries(services.map((s) => [`on_${s.route}`, true])),
+        ...Object.fromEntries(services.filter((s) => s.flag).map((s) => [`flag_${s.route}`, true])),
       },
       geometry: { type: "Point", coordinates: [+stop.stop_lon, +stop.stop_lat] },
     });

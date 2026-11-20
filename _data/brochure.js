@@ -40,7 +40,7 @@ const en = {
   until: "Until",
   from: "From",
   wccNotes: [
-    "*Fares payable to driver. Ask for rates between towns. Additional stops in Bangor-$5.00",
+    "*Fares payable to driver. Ask for rates between towns.",
     "Ticket purchase on bus is with correct change only and US Currency. Drivers are not allowed to carry cash.",
     "Bus will make flag stops anywhere along the route where it is safe and convenient to do so. (To utilize a flag stop, please make yourself visible near the curb. Place your luggage beside the road and wave the bus to a stop.)",
     "ADA equipped bus available with 1 day notice.",
@@ -55,6 +55,9 @@ const en = {
   schoolTitle: "Monday thru Friday, School Season Only",
   call: "Call",
   nextTrips: "Next trips",
+  mapOf: "Map of",
+  flagStop: "Flag stop",
+  services: {},
   season: "{start} to {end}",
   routes: {},
   generalTitle: "General Information",
@@ -123,7 +126,7 @@ const es = {
   until: "Hasta el",
   from: "Desde el",
   wccNotes: [
-    "*Tarifas pagaderas al conductor. Pregunte por las tarifas entre pueblos. Paradas adicionales en Bangor: $5.00",
+    "*Tarifas pagaderas al conductor. Pregunte por las tarifas entre pueblos.",
     "La compra de boletos en el autobús es solo con el importe exacto y en dólares estadounidenses. Los conductores no pueden llevar dinero en efectivo.",
     "El autobús hará paradas a pedido en cualquier punto de la ruta donde sea seguro y conveniente. (Para usar una parada a pedido, hágase visible cerca de la acera, coloque su equipaje al lado del camino y haga señas al autobús para que se detenga.)",
     "Autobús equipado según la ADA disponible con 1 día de aviso.",
@@ -137,6 +140,15 @@ const es = {
   schoolTitle: "De lunes a viernes, solo durante el año escolar",
   call: "Llame al",
   nextTrips: "Próximos viajes",
+  mapOf: "Mapa de",
+  flagStop: "Parada a pedido",
+  services: {
+    "7 days a week": "7 días a la semana",
+    "Monday to Friday": "De lunes a viernes",
+    Mondays: "Los lunes",
+    Tuesdays: "Los martes",
+    "Select dates": "Fechas seleccionadas",
+  },
   season: "Del {start} al {end}",
   routes: {
     ELLS: { name: "Autobús del lunes a Ellsworth", desc: "Servicio los lunes de Beals Island a Ellsworth" },

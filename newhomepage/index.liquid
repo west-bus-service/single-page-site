@@ -104,10 +104,10 @@ permalink: /newhomepage/
       <a href="tel:+18005962823">1-800-596-2823</a> or <a href="tel:+12075462823">207-546-2823</a></p>
 
     <h3 class="section-sub">Schedule of Service</h3>
-    {% render "timetable.liquid", route: wcc, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: wcc, periods: gtfs.periods, t: brochure.en %}
 
     <div class="notes">
-      <p>*Fares payable to driver. Ask for rates between towns. Additional stops in Bangor-$5.00</p>
+      <p>*Fares payable to driver. Ask for rates between towns.</p>
       <p>Ticket purchase on bus is with correct change only and US Currency. Drivers are not allowed to carry cash.</p>
       <p>Bus will make flag stops anywhere along the route where it is safe and convenient to do so.
         (To utilize a flag stop, please make yourself visible near the curb. Place your luggage beside the road and wave the bus to a stop.)</p>
@@ -119,10 +119,13 @@ permalink: /newhomepage/
     <div class="spanish" lang="es">
       <h3>La Conexi&oacute;n Costera de West</h3>
       <p><strong>CALAIS &bull; MACHIAS &bull; ELLSWORTH &bull; BANGOR</strong><br>
-        Servicio p&uacute;blico de autob&uacute;s diario, de Calais a Bangor y puntos intermedios.
-        Consulte el horario arriba.</p>
+        Servicio p&uacute;blico de autob&uacute;s diario, de Calais a Bangor y puntos intermedios.</p>
       <p>Paradas proporcionadas como servicio p&uacute;blico por comerciantes. Para informaci&oacute;n:
         <a href="tel:+18005962823">1-800-596-2823</a> o <a href="tel:+12075462823">207-546-2823</a></p>
+      <h4>Horario de servicio</h4>
+      {% render "timetable.liquid", route: wcc, periods: gtfs.periods, t: brochure.es, hideMap: true %}
+      <p>*Tarifas pagaderas al conductor. Pregunte por las tarifas entre pueblos.</p>
+      <p>La compra de boletos en el autob&uacute;s es solo con el importe exacto y en d&oacute;lares estadounidenses. Los conductores no pueden llevar dinero en efectivo.</p>
       <p>El autob&uacute;s har&aacute; paradas a pedido en cualquier punto de la ruta donde sea seguro y conveniente.
         (Para usar una parada a pedido, h&aacute;gase visible cerca de la acera, coloque su equipaje al lado del camino y haga se&ntilde;as al autob&uacute;s para que se detenga.)</p>
       <p>Autob&uacute;s equipado seg&uacute;n la ADA disponible con 1 d&iacute;a de aviso.</p>
@@ -136,21 +139,21 @@ permalink: /newhomepage/
     <h2>West's Bus Service</h2>
     <p class="lede">Schedule is subject to change without notice, CALL prior to travel.
       Read schedule down then up for round trips.</p>
-    {% render "timetable.liquid", route: ells, periods: gtfs.periods %}
-    {% render "timetable.liquid", route: mach, periods: gtfs.periods %}
-    {% render "timetable.liquid", route: week, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: ells, periods: gtfs.periods, t: brochure.en %}
+    {% render "timetable.liquid", route: mach, periods: gtfs.periods, t: brochure.en %}
+    {% render "timetable.liquid", route: week, periods: gtfs.periods, t: brochure.en %}
     <p class="reservations">Reservations Required</p>
   </section>
 
   <section id="lubec">
     <h2>First Wednesday of each Month</h2>
-    {% render "timetable.liquid", route: lbc, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: lbc, periods: gtfs.periods, t: brochure.en %}
     <p class="call">Call <a href="tel:+18005962823">1-800-596-2823</a></p>
   </section>
 
   <section id="school">
     <h2>Monday thru Friday, School Season Only</h2>
-    {% render "timetable.liquid", route: schl, periods: gtfs.periods %}
+    {% render "timetable.liquid", route: schl, periods: gtfs.periods, t: brochure.en %}
     <p class="reservations">Reservations Required</p>
   </section>
 
