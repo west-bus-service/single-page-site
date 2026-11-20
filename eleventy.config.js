@@ -2,8 +2,6 @@ export default function (eleventyConfig) {
   for (const path of [
     "CNAME",
     "*.gif",
-    "*.jpg",
-    "*.jpeg",
     "*.JPG",
     "*.png",
     "favicon.ico",
